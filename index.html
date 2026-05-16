@@ -2139,32 +2139,43 @@ tr.demo-row-hl > td {
     <button class="sb-collapse-btn" onclick="toggleSidebar()" title="Collapse sidebar">◀</button>
   </div>
   <nav style="flex:1;padding:8px 0;">
-    <div class="sb-section">Command Center</div>
-    <div class="ni active" onclick="nav('dashboard',this)" title="Product Review Board"><span class="ico">⬡</span><span class="ni-label">Product Review Board</span></div>
-    <div class="ni" onclick="nav('simulation',this)" title="Simulation"><span class="ico">▶</span><span class="ni-label">Simulation</span><span class="nbadge a" style="background:linear-gradient(90deg,#d97706,#1d4ed8);">DEMO</span></div>
-    <div class="ni" onclick="nav('worklist',this)" title="Issue Worklist"><span class="ico">≡</span><span class="ni-label">Issue Worklist</span><span class="nbadge" id="nb-w">12</span></div>
-    <div class="ni" onclick="nav('alerts',this)" title="Alert Queue"><span class="ico">⚡</span><span class="ni-label">Alert Queue</span><span class="nbadge" id="nb-a">9</span></div>
-    <div class="ni" onclick="nav('commsagent',this)" title="AI Comms Agent"><span class="ico">📡</span><span class="ni-label">AI Comms Agent</span><span class="nbadge" id="nb-ca" style="background:var(--amber);">4</span></div>
-    <div class="sb-section">Supply Tracking</div>
-    <div class="ni" onclick="nav('parts',this)" title="Parts Tracker"><span class="ico">⬢</span><span class="ni-label">Parts Tracker</span><span class="nbadge a" id="nb-p">12</span></div>
-    <div class="ni" onclick="nav('orders',this)" title="PO Manager"><span class="ico">📋</span><span class="ni-label">PO Manager</span></div>
-    <div class="ni" onclick="nav('commits',this)" title="Supplier Commits"><span class="ico">✓</span><span class="ni-label">Supplier Commits</span><span class="nbadge a" id="nb-nc">6</span></div>
-    <div class="ni" onclick="nav('location',this)" title="Location View"><span class="ico">📍</span><span class="ni-label">Location View</span></div>
+    <!-- ─── COMMAND ─── strategic / executive view ─── -->
+    <div class="sb-section">Command</div>
+    <div class="ni active" onclick="nav('dashboard',this)" title="Product Review Board — strategic risk overview"><span class="ico">⬡</span><span class="ni-label">Product Review Board</span></div>
+    <div class="ni" onclick="nav('simulation',this)" title="Simulation Demo"><span class="ico">▶</span><span class="ni-label">Simulation</span><span class="nbadge a" style="background:linear-gradient(90deg,#d97706,#1d4ed8);">DEMO</span></div>
+
+    <!-- ─── OPERATIONS ─── unified disruption flow: detect → triage → escalate → resolve ─── -->
+    <div class="sb-section">Operations</div>
+    <div class="ni" onclick="nav('worklist',this)" title="Issue Worklist — prioritized triage queue"><span class="ico">≡</span><span class="ni-label">Issue Worklist</span><span class="nbadge" id="nb-w">12</span></div>
+    <div class="ni" onclick="nav('alerts',this)" title="Alert Queue — critical and high-tier alerts"><span class="ico">⚡</span><span class="ni-label">Alert Queue</span><span class="nbadge" id="nb-a">9</span></div>
+    <div class="ni" onclick="nav('commsagent',this)" title="AI Comms Agent — autonomous supplier outreach"><span class="ico">📡</span><span class="ni-label">AI Comms Agent</span><span class="nbadge" id="nb-ca" style="background:var(--amber);">4</span></div>
+
+    <!-- ─── ORDERS ─── purchase order lifecycle ─── -->
+    <div class="sb-section">Orders</div>
+    <div class="ni" onclick="nav('orders',this)" title="PO Manager — purchase orders"><span class="ico">📋</span><span class="ni-label">PO Manager</span></div>
+    <div class="ni" onclick="nav('commits',this)" title="Supplier Commits — POA/PS/PF/SH milestones"><span class="ico">✓</span><span class="ni-label">Supplier Commits</span><span class="nbadge a" id="nb-nc">6</span></div>
+    <div class="ni" onclick="nav('parts',this)" title="Parts Tracker — part-centric inventory + status"><span class="ico">⬢</span><span class="ni-label">Parts Tracker</span><span class="nbadge a" id="nb-p">12</span></div>
+
+    <!-- ─── PLANNING ─── interconnected demand, BOM, MRP, what-if, lead time ─── -->
     <div class="sb-section">Planning</div>
-    <div class="ni" onclick="nav('demand',this)" title="Demand Planning"><span class="ico">📈</span><span class="ni-label">Demand Planning</span></div>
-    <div class="ni" onclick="nav('bom',this)" title="BOM Explorer"><span class="ico">⬡</span><span class="ni-label">BOM Explorer</span></div>
-    <div class="ni" onclick="nav('mrp',this)" title="Material Requirements"><span class="ico">⚙</span><span class="ni-label">Material Req. (MRP)</span></div>
-    <div class="sb-section">Intelligence</div>
-    <div class="ni" onclick="nav('whatif',this)" title="What-If: PO Delay"><span class="ico">◈</span><span class="ni-label">What-If: PO Delay</span></div>
-    <div class="ni" onclick="nav('leadtime',this)" title="Lead Time Reality"><span class="ico">⏱</span><span class="ni-label">Lead Time Reality</span></div>
-    <div class="ni" onclick="nav('performance',this)" title="Performance"><span class="ico">▦</span><span class="ni-label">Performance</span></div>
+    <div class="ni" onclick="nav('demand',this)" title="Demand Planning — forecast vs actual"><span class="ico">📈</span><span class="ni-label">Demand Planning</span></div>
+    <div class="ni" onclick="nav('bom',this)" title="BOM Explorer — bicycle product structure"><span class="ico">⬡</span><span class="ni-label">BOM Explorer</span></div>
+    <div class="ni" onclick="nav('mrp',this)" title="Material Requirements Planning"><span class="ico">⚙</span><span class="ni-label">Material Req. (MRP)</span></div>
+    <div class="ni" onclick="nav('whatif',this)" title="What-If: PO Delay scenarios"><span class="ico">◈</span><span class="ni-label">What-If: PO Delay</span></div>
+    <div class="ni" onclick="nav('leadtime',this)" title="Lead Time Reality — planned vs actual variance"><span class="ico">⏱</span><span class="ni-label">Lead Time Reality</span></div>
+
+    <!-- ─── SUPPLIERS ─── unified supplier intelligence: directory, map, performance, parts location ─── -->
     <div class="sb-section">Suppliers</div>
-    <div class="ni" onclick="nav('suppliers',this)" title="Supplier Registry"><span class="ico">🏭</span><span class="ni-label">Supplier Registry</span></div>
-    <div class="ni" onclick="nav('supmap',this)" title="Supplier Map"><span class="ico">🗺</span><span class="ni-label">Supplier Map</span></div>
-    <div class="sb-section">System</div>
-    <div class="ni" onclick="nav('ingest',this)" title="Data Ingest"><span class="ico">⬆</span><span class="ni-label">Data Ingest</span></div>
-    <div class="ni" onclick="nav('tms',this)" title="TMS / WMS"><span class="ico">🔌</span><span class="ni-label">TMS / WMS</span></div>
-    <div class="ni" onclick="nav('rules',this)" title="Business Rules"><span class="ico">⚙</span><span class="ni-label">Business Rules</span></div>
+    <div class="ni" onclick="nav('suppliers',this)" title="Supplier Registry — directory + scorecards"><span class="ico">🏭</span><span class="ni-label">Supplier Registry</span></div>
+    <div class="ni" onclick="nav('performance',this)" title="Supplier Performance — OTIF, lead time variance, aging"><span class="ico">▦</span><span class="ni-label">Supplier Performance</span></div>
+    <div class="ni" onclick="nav('supmap',this)" title="Supplier Map — geographic distribution"><span class="ico">🗺</span><span class="ni-label">Supplier Map</span></div>
+    <div class="ni" onclick="nav('location',this)" title="Location View — parts in transit across the network"><span class="ico">📍</span><span class="ni-label">Location View</span></div>
+
+    <!-- ─── PLATFORM ─── system integrations and rules ─── -->
+    <div class="sb-section">Platform</div>
+    <div class="ni" onclick="nav('ingest',this)" title="Data Ingest — ERP + spreadsheet uploads"><span class="ico">⬆</span><span class="ni-label">Data Ingest</span></div>
+    <div class="ni" onclick="nav('tms',this)" title="TMS / WMS — live logistics integrations"><span class="ico">🔌</span><span class="ni-label">TMS / WMS</span></div>
+    <div class="ni" onclick="nav('rules',this)" title="Business Rules — escalation policies + overrides"><span class="ico">⚙</span><span class="ni-label">Business Rules</span></div>
   </nav>
   <div class="sb-foot">
     <span class="pulse"></span><strong>AI Agents Active</strong><br>
