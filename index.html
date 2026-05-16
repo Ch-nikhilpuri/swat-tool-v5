@@ -2382,6 +2382,16 @@ tr.demo-row-hl > td {
 .rw-tab.active{color:var(--amber);border-bottom-color:var(--amber);}
 .rw-tab:hover{color:var(--ink);}
 .rw-tab-body{padding:14px;overflow-y:auto;flex:1;min-height:0;}
+/* Workspace consolidated tabs */
+.ws-tabbar{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 14px;background:var(--card);margin:0 0 12px 0;border-radius:8px 8px 0 0;flex-wrap:wrap;}
+.ws-tab{padding:11px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;user-select:none;letter-spacing:.3px;}
+.ws-tab.active{color:var(--amber);border-bottom-color:var(--amber);}
+.ws-tab:hover{color:var(--ink);}
+.ws-tab-pane{display:none;}
+.ws-tab-pane.active{display:block;}
+.ws-breadcrumb{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;padding:6px 0 8px;}
+.ws-breadcrumb b{color:var(--ink);}
+.ws-ai-mount{margin:0 0 12px 0;}
 
 /* ── AI Recommendation card ── */
 .ai-rec-card{border:1px solid var(--border);border-radius:8px;background:var(--card);overflow:hidden;}
@@ -2426,41 +2436,27 @@ html.dark .ai-rec-card{background:var(--card);}
     <!-- ─── COMMAND ─── strategic / executive view ─── -->
     <div class="sb-section">Command</div>
     <div class="ni active" onclick="nav('dashboard',this)" title="Product Review Board — strategic risk overview"><span class="ico">⬡</span><span class="ni-label">Product Review Board</span></div>
-    <div class="ni" onclick="nav('simulation',this)" title="Simulation Demo"><span class="ico">▶</span><span class="ni-label">Simulation</span><span class="nbadge a" style="background:linear-gradient(90deg,#d97706,#1d4ed8);">DEMO</span></div>
 
     <!-- ─── OPERATIONS ─── unified disruption flow: detect → triage → escalate → resolve ─── -->
     <div class="sb-section">Operations</div>
-    <div class="ni" onclick="nav('worklist',this)" title="Issue Worklist — prioritized triage queue"><span class="ico">≡</span><span class="ni-label">Issue Worklist</span><span class="nbadge" id="nb-w">12</span></div>
-    <div class="ni" onclick="nav('alerts',this)" title="Alert Queue — critical and high-tier alerts"><span class="ico">⚡</span><span class="ni-label">Alert Queue</span><span class="nbadge" id="nb-a">9</span></div>
-    <div class="ni" onclick="nav('commsagent',this)" title="AI Comms Agent — autonomous supplier outreach"><span class="ico">📡</span><span class="ni-label">AI Comms Agent</span><span class="nbadge" id="nb-ca" style="background:var(--amber);">4</span></div>
+    <div class="ni" onclick="nav('ws-disruptions',this)" title="Disruptions — triage, alerts, issues, comms, escalations, resolution"><span class="ico">⚡</span><span class="ni-label">Disruptions</span><span class="nbadge" id="nb-ws-disruptions">4</span></div>
 
-    <!-- ─── ORDERS ─── purchase order lifecycle ─── -->
-    <div class="sb-section">Orders</div>
-    <div class="ni" onclick="nav('orders',this)" title="PO Manager — purchase orders"><span class="ico">📋</span><span class="ni-label">PO Manager</span></div>
-    <div class="ni" onclick="nav('commits',this)" title="Supplier Commits — POA/PS/PF/SH milestones"><span class="ico">✓</span><span class="ni-label">Supplier Commits</span><span class="nbadge a" id="nb-nc">6</span></div>
-    <div class="ni" onclick="nav('parts',this)" title="Parts Tracker — part-centric inventory + status"><span class="ico">⬢</span><span class="ni-label">Parts Tracker</span><span class="nbadge a" id="nb-p">12</span></div>
+    <!-- ─── PARTS & ORDERS ─── -->
+    <div class="sb-section">Parts &amp; Orders</div>
+    <div class="ni" onclick="nav('ws-orders',this)" title="Parts &amp; Orders — POs, commits, parts, BOM, inventory"><span class="ico">📋</span><span class="ni-label">Parts &amp; Orders</span><span class="nbadge" id="nb-ws-orders">12</span></div>
 
-    <!-- ─── PLANNING ─── interconnected demand, BOM, MRP, what-if, lead time ─── -->
-    <div class="sb-section">Planning</div>
-    <div class="ni" onclick="nav('demand',this)" title="Demand Planning — forecast vs actual"><span class="ico">📈</span><span class="ni-label">Demand Planning</span></div>
-    <div class="ni" onclick="nav('bom',this)" title="BOM Explorer — bicycle product structure"><span class="ico">⬡</span><span class="ni-label">BOM Explorer</span></div>
-    <div class="ni" onclick="nav('mrp',this)" title="Material Requirements Planning"><span class="ico">⚙</span><span class="ni-label">Material Req. (MRP)</span></div>
-    <div class="ni" onclick="nav('whatif',this)" title="What-If: PO Delay scenarios"><span class="ico">◈</span><span class="ni-label">What-If: PO Delay</span></div>
-    <div class="ni" onclick="nav('leadtime',this)" title="Lead Time Reality — planned vs actual variance"><span class="ico">⏱</span><span class="ni-label">Lead Time Reality</span></div>
+    <!-- ─── PLANNING & SIMULATION ─── -->
+    <div class="sb-section">Planning &amp; Simulation</div>
+    <div class="ni" onclick="nav('ws-planning',this)" title="Planning &amp; Simulation — demand, MRP, lead time, what-if"><span class="ico">📈</span><span class="ni-label">Planning &amp; Simulation</span></div>
 
-    <!-- ─── SUPPLIERS ─── unified supplier intelligence: directory, map, performance, parts location ─── -->
+    <!-- ─── SUPPLIERS ─── -->
     <div class="sb-section">Suppliers</div>
-    <div class="ni" onclick="nav('suppliers',this)" title="Supplier Registry — directory + scorecards"><span class="ico">🏭</span><span class="ni-label">Supplier Registry</span></div>
-    <div class="ni" onclick="nav('performance',this)" title="Supplier Performance — OTIF, lead time variance, aging"><span class="ico">▦</span><span class="ni-label">Supplier Performance</span></div>
-    <div class="ni" onclick="nav('supmap',this)" title="Supplier Map — geographic distribution"><span class="ico">🗺</span><span class="ni-label">Supplier Map</span></div>
-    <div class="ni" onclick="nav('location',this)" title="Location View — parts in transit across the network"><span class="ico">📍</span><span class="ni-label">Location View</span></div>
+    <div class="ni" onclick="nav('ws-suppliers',this)" title="Supplier Intelligence — directory, profiles, map, performance"><span class="ico">🏭</span><span class="ni-label">Supplier Intelligence</span></div>
 
-    <!-- ─── PLATFORM ─── system integrations and rules ─── -->
+    <!-- ─── PLATFORM ─── -->
     <div class="sb-section">Platform</div>
-    <div class="ni" onclick="nav('ingest',this)" title="Data Ingest — ERP + spreadsheet uploads"><span class="ico">⬆</span><span class="ni-label">Data Ingest</span></div>
-    <div class="ni" onclick="nav('tms',this)" title="TMS / WMS — live logistics integrations"><span class="ico">🔌</span><span class="ni-label">TMS / WMS</span></div>
-    <div class="ni" onclick="nav('rules',this)" title="Business Rules — escalation policies + overrides"><span class="ico">⚙</span><span class="ni-label">Business Rules</span></div>
-    <div class="ni" onclick="nav('resolution',this)" title="Resolution Workspace — focused issue resolution"><span class="ico">🛠</span><span class="ni-label">Resolution Workspace</span></div>
+    <div class="ni" onclick="nav('simulation',this)" title="Simulation Demo"><span class="ico">▶</span><span class="ni-label">Simulation Demo</span><span class="nbadge a" style="background:linear-gradient(90deg,#d97706,#1d4ed8);">DEMO</span></div>
+    <div class="ni" onclick="nav('ws-platform',this)" title="Platform — ingest, integrations, rules, advisor controls"><span class="ico">⚙</span><span class="ni-label">Platform</span></div>
   </nav>
   <div class="sb-foot">
     <span class="pulse"></span><strong>AI Agents Active</strong><br>
@@ -3792,6 +3788,98 @@ html.dark .ai-rec-card{background:var(--card);}
     <div id="rw-center" class="panel" style="padding:0;display:flex;flex-direction:column;min-width:0;"></div>
     <div id="rw-rail" style="display:flex;flex-direction:column;gap:12px;min-width:0;"></div>
   </div>
+</section>
+
+<!-- ══════ CONSOLIDATED WORKSPACES ══════ -->
+<section class="sec" id="sec-ws-disruptions">
+  <div class="ws-breadcrumb" id="bc-ws-disruptions">Disruptions › <b>Triage</b></div>
+  <div class="ws-tabbar" data-ws="ws-disruptions">
+    <div class="ws-tab active" data-tab="triage"        onclick="switchWorkspaceTab('ws-disruptions','triage')">Triage</div>
+    <div class="ws-tab"        data-tab="alerts"        onclick="switchWorkspaceTab('ws-disruptions','alerts')">Alerts</div>
+    <div class="ws-tab"        data-tab="issues"        onclick="switchWorkspaceTab('ws-disruptions','issues')">Issues</div>
+    <div class="ws-tab"        data-tab="communications" onclick="switchWorkspaceTab('ws-disruptions','communications')">Communications</div>
+    <div class="ws-tab"        data-tab="escalations"   onclick="switchWorkspaceTab('ws-disruptions','escalations')">Escalations</div>
+    <div class="ws-tab"        data-tab="timeline"      onclick="switchWorkspaceTab('ws-disruptions','timeline')">Resolution Timeline</div>
+  </div>
+  <div class="ws-ai-mount" id="ai-mount-ws-disruptions"></div>
+  <div class="ws-tab-pane active" data-tab="triage"        data-section=""></div>
+  <div class="ws-tab-pane"        data-tab="alerts"        data-section="alerts"></div>
+  <div class="ws-tab-pane"        data-tab="issues"        data-section="worklist"></div>
+  <div class="ws-tab-pane"        data-tab="communications" data-section="commsagent"></div>
+  <div class="ws-tab-pane"        data-tab="escalations"   data-section=""></div>
+  <div class="ws-tab-pane"        data-tab="timeline"      data-section=""></div>
+</section>
+
+<section class="sec" id="sec-ws-orders">
+  <div class="ws-breadcrumb" id="bc-ws-orders">Parts &amp; Orders › <b>Orders</b></div>
+  <div class="ws-tabbar" data-ws="ws-orders">
+    <div class="ws-tab active" data-tab="orders"   onclick="switchWorkspaceTab('ws-orders','orders')">Orders</div>
+    <div class="ws-tab"        data-tab="commits"  onclick="switchWorkspaceTab('ws-orders','commits')">Commits</div>
+    <div class="ws-tab"        data-tab="parts"    onclick="switchWorkspaceTab('ws-orders','parts')">Parts</div>
+    <div class="ws-tab"        data-tab="bom"      onclick="switchWorkspaceTab('ws-orders','bom')">BOM</div>
+    <div class="ws-tab"        data-tab="location" onclick="switchWorkspaceTab('ws-orders','location')">Inventory / Location</div>
+    <div class="ws-tab"        data-tab="risks"    onclick="switchWorkspaceTab('ws-orders','risks')">Related Risks</div>
+  </div>
+  <div class="ws-ai-mount" id="ai-mount-ws-orders"></div>
+  <div class="ws-tab-pane active" data-tab="orders"   data-section="orders"></div>
+  <div class="ws-tab-pane"        data-tab="commits"  data-section="commits"></div>
+  <div class="ws-tab-pane"        data-tab="parts"    data-section="parts"></div>
+  <div class="ws-tab-pane"        data-tab="bom"      data-section="bom"></div>
+  <div class="ws-tab-pane"        data-tab="location" data-section="location"></div>
+  <div class="ws-tab-pane"        data-tab="risks"    data-section=""></div>
+</section>
+
+<section class="sec" id="sec-ws-planning">
+  <div class="ws-breadcrumb" id="bc-ws-planning">Planning &amp; Simulation › <b>Demand</b></div>
+  <div class="ws-tabbar" data-ws="ws-planning">
+    <div class="ws-tab active" data-tab="demand"     onclick="switchWorkspaceTab('ws-planning','demand')">Demand</div>
+    <div class="ws-tab"        data-tab="mrp"        onclick="switchWorkspaceTab('ws-planning','mrp')">MRP</div>
+    <div class="ws-tab"        data-tab="leadtime"   onclick="switchWorkspaceTab('ws-planning','leadtime')">Lead Time Reality</div>
+    <div class="ws-tab"        data-tab="whatif"     onclick="switchWorkspaceTab('ws-planning','whatif')">What-If Lab</div>
+    <div class="ws-tab"        data-tab="scenarios"  onclick="switchWorkspaceTab('ws-planning','scenarios')">Saved Scenarios</div>
+    <div class="ws-tab"        data-tab="recovery"   onclick="switchWorkspaceTab('ws-planning','recovery')">Recovery Plans</div>
+  </div>
+  <div class="ws-ai-mount" id="ai-mount-ws-planning"></div>
+  <div class="ws-tab-pane active" data-tab="demand"    data-section="demand"></div>
+  <div class="ws-tab-pane"        data-tab="mrp"       data-section="mrp"></div>
+  <div class="ws-tab-pane"        data-tab="leadtime"  data-section="leadtime"></div>
+  <div class="ws-tab-pane"        data-tab="whatif"    data-section="whatif"></div>
+  <div class="ws-tab-pane"        data-tab="scenarios" data-section=""></div>
+  <div class="ws-tab-pane"        data-tab="recovery"  data-section=""></div>
+</section>
+
+<section class="sec" id="sec-ws-suppliers">
+  <div class="ws-breadcrumb" id="bc-ws-suppliers">Supplier Intelligence › <b>Directory</b></div>
+  <div class="ws-tabbar" data-ws="ws-suppliers">
+    <div class="ws-tab active" data-tab="directory"   onclick="switchWorkspaceTab('ws-suppliers','directory')">Directory</div>
+    <div class="ws-tab"        data-tab="profiles"    onclick="switchWorkspaceTab('ws-suppliers','profiles')">Profiles</div>
+    <div class="ws-tab"        data-tab="map"         onclick="switchWorkspaceTab('ws-suppliers','map')">Map</div>
+    <div class="ws-tab"        data-tab="performance" onclick="switchWorkspaceTab('ws-suppliers','performance')">Performance</div>
+    <div class="ws-tab"        data-tab="risks"       onclick="switchWorkspaceTab('ws-suppliers','risks')">Active Risks</div>
+    <div class="ws-tab"        data-tab="commithist"  onclick="switchWorkspaceTab('ws-suppliers','commithist')">Commit History</div>
+  </div>
+  <div class="ws-ai-mount" id="ai-mount-ws-suppliers"></div>
+  <div class="ws-tab-pane active" data-tab="directory"   data-section="suppliers"></div>
+  <div class="ws-tab-pane"        data-tab="profiles"    data-section=""></div>
+  <div class="ws-tab-pane"        data-tab="map"         data-section="supmap"></div>
+  <div class="ws-tab-pane"        data-tab="performance" data-section="performance"></div>
+  <div class="ws-tab-pane"        data-tab="risks"       data-section=""></div>
+  <div class="ws-tab-pane"        data-tab="commithist"  data-section=""></div>
+</section>
+
+<section class="sec" id="sec-ws-platform">
+  <div class="ws-breadcrumb" id="bc-ws-platform">Platform › <b>Data Ingest</b></div>
+  <div class="ws-tabbar" data-ws="ws-platform">
+    <div class="ws-tab active" data-tab="ingest"       onclick="switchWorkspaceTab('ws-platform','ingest')">Data Ingest</div>
+    <div class="ws-tab"        data-tab="integrations" onclick="switchWorkspaceTab('ws-platform','integrations')">Integrations</div>
+    <div class="ws-tab"        data-tab="rules"        onclick="switchWorkspaceTab('ws-platform','rules')">Rules</div>
+    <div class="ws-tab"        data-tab="advisor"      onclick="switchWorkspaceTab('ws-platform','advisor')">Advisor Controls</div>
+  </div>
+  <div class="ws-ai-mount" id="ai-mount-ws-platform"></div>
+  <div class="ws-tab-pane active" data-tab="ingest"       data-section="ingest"></div>
+  <div class="ws-tab-pane"        data-tab="integrations" data-section="tms"></div>
+  <div class="ws-tab-pane"        data-tab="rules"        data-section="rules"></div>
+  <div class="ws-tab-pane"        data-tab="advisor"      data-section=""></div>
 </section>
 
 </div><!-- /content -->
@@ -8764,7 +8852,12 @@ const SEC_TITLES={
   performance:'Performance Dashboard', suppliers:'Supplier Registry',
   supmap:'Global Supplier Map', ingest:'Data Ingest',
   tms:'TMS / WMS Integration', rules:'Business Rules',
-  resolution:'Resolution Workspace'
+  resolution:'Resolution Workspace',
+  'ws-disruptions':'Disruptions',
+  'ws-orders':'Parts & Orders',
+  'ws-planning':'Planning & Simulation',
+  'ws-suppliers':'Supplier Intelligence',
+  'ws-platform':'Platform'
 };
 
 function navTo(id){
@@ -8818,6 +8911,326 @@ function nav(id,el){
     setTimeout(()=>renderNextStep('worklist'),150);
   }
 }
+
+/* ══════ CONSOLIDATED WORKSPACE LOGIC ══════ */
+const WORKSPACE_TAB_MAP = {
+  alerts:       { ws: 'ws-disruptions', tab: 'alerts' },
+  worklist:     { ws: 'ws-disruptions', tab: 'issues' },
+  commsagent:   { ws: 'ws-disruptions', tab: 'communications' },
+  orders:       { ws: 'ws-orders',      tab: 'orders' },
+  commits:      { ws: 'ws-orders',      tab: 'commits' },
+  parts:        { ws: 'ws-orders',      tab: 'parts' },
+  bom:          { ws: 'ws-orders',      tab: 'bom' },
+  location:     { ws: 'ws-orders',      tab: 'location' },
+  demand:       { ws: 'ws-planning',    tab: 'demand' },
+  mrp:          { ws: 'ws-planning',    tab: 'mrp' },
+  whatif:       { ws: 'ws-planning',    tab: 'whatif' },
+  leadtime:     { ws: 'ws-planning',    tab: 'leadtime' },
+  suppliers:    { ws: 'ws-suppliers',   tab: 'directory' },
+  supmap:       { ws: 'ws-suppliers',   tab: 'map' },
+  performance:  { ws: 'ws-suppliers',   tab: 'performance' },
+  ingest:       { ws: 'ws-platform',    tab: 'ingest' },
+  tms:          { ws: 'ws-platform',    tab: 'integrations' },
+  rules:        { ws: 'ws-platform',    tab: 'rules' },
+};
+const WS_IDS = ['ws-disruptions','ws-orders','ws-planning','ws-suppliers','ws-platform'];
+
+// Track original parents for migrated sections
+function ensureSectionInPane(sectionId, paneEl){
+  if(!sectionId || !paneEl) return null;
+  const sec = document.getElementById('sec-' + sectionId);
+  if(!sec) return null;
+  if(!sec.dataset.originalParent){
+    const p = sec.parentElement;
+    if(p){
+      if(!p.id) p.id = 'swat-content-root';
+      sec.dataset.originalParent = p.id;
+      sec.dataset.originalDisplay = '';
+    }
+  }
+  if(sec.parentElement !== paneEl){
+    paneEl.appendChild(sec);
+  }
+  sec.classList.add('active');
+  sec.style.display = 'block';
+  return sec;
+}
+function restoreSection(sectionId){
+  if(!sectionId) return;
+  const sec = document.getElementById('sec-' + sectionId);
+  if(!sec) return;
+  const origId = sec.dataset.originalParent;
+  if(origId){
+    const orig = document.getElementById(origId);
+    if(orig && sec.parentElement !== orig){
+      orig.appendChild(sec);
+    }
+  }
+  sec.classList.remove('active');
+  sec.style.display = '';
+}
+
+// Restore all sections back to their original content root, EXCEPT the
+// ones owned by the workspace being entered (those get migrated by switchWorkspaceTab).
+function restoreAllExcept(keepWsId){
+  Object.entries(WORKSPACE_TAB_MAP).forEach(([secId,m])=>{
+    if(m.ws !== keepWsId) restoreSection(secId);
+  });
+}
+
+function switchWorkspaceTab(wsId, tabId){
+  const ws = document.getElementById('sec-' + wsId);
+  if(!ws) return;
+  // Update tab bar
+  ws.querySelectorAll(':scope > .ws-tabbar > .ws-tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.tab === tabId);
+  });
+  // Update panes
+  let activePane = null;
+  ws.querySelectorAll(':scope > .ws-tab-pane').forEach(p=>{
+    const isActive = p.dataset.tab === tabId;
+    p.classList.toggle('active', isActive);
+    if(isActive) activePane = p;
+  });
+  if(!activePane) return;
+
+  // Migrate the associated section (if any) into this pane
+  const secKey = activePane.dataset.section;
+  if(secKey){
+    // First, restore any other sibling-section currently sitting in another pane
+    ws.querySelectorAll(':scope > .ws-tab-pane').forEach(p=>{
+      if(p !== activePane && p.dataset.section){
+        const sec = document.getElementById('sec-' + p.dataset.section);
+        if(sec && sec.parentElement === p){
+          restoreSection(p.dataset.section);
+        }
+      }
+    });
+    ensureSectionInPane(secKey, activePane);
+    // Fire the existing render side-effects by calling the helper
+    runSectionRender(secKey);
+  } else {
+    // Synthetic tabs — render custom content
+    renderSyntheticTab(wsId, tabId, activePane);
+  }
+  // Update breadcrumb
+  const bc = document.getElementById('bc-' + wsId);
+  if(bc){
+    const tabLabelEl = ws.querySelector(':scope > .ws-tabbar > .ws-tab.active');
+    const tabLabel = tabLabelEl ? tabLabelEl.textContent.trim() : tabId;
+    bc.innerHTML = (SEC_TITLES[wsId]||wsId) + ' › <b>' + tabLabel + '</b>';
+  }
+  // Mount AI advisor card for this workspace context
+  mountWorkspaceAI(wsId, tabId);
+  // Track context
+  window.SWAT_CTX = window.SWAT_CTX || {};
+  window.SWAT_CTX.currentWorkspace = wsId;
+  window.SWAT_CTX.currentTab = tabId;
+}
+
+// Replicate per-section render side-effects (mirrors body of nav())
+function runSectionRender(id){
+  try{
+    if(id==='commsagent'){  renderCaInbox(); }
+    if(id==='performance'){ renderSS(); setTimeout(()=>{ try{renderLTVarianceChart();renderShortageTrendChart();renderAgingChart();}catch(_){} },80); }
+    if(id==='demand'){ setTimeout(()=>{ try{renderDemandChart();renderCapacityTable();renderCapacityUtilChart();renderForecastActualChart();renderFVATable();}catch(_){} },80); }
+    if(id==='bom'){         renderBOM(); }
+    if(id==='mrp'){         populateMRPSupplierFilter(); renderMRP(); }
+    if(id==='commits'){     renderCommits(); }
+    if(id==='orders'){      renderPOTable(); }
+    if(id==='alerts'){      renderAlertQueue(); }
+    if(id==='parts'){       renderPartsTable(); }
+    if(id==='suppliers'){   renderSupplierCards(); renderSS(); }
+    if(id==='location'){    renderLocTable(); }
+    if(id==='leadtime'){    renderLT(); setTimeout(()=>{try{renderLTVarianceChart();}catch(_){}},80); }
+    if(id==='tms'){         renderTMSFeed(); try{renderMapping();}catch(_){} }
+    if(id==='rules'){       renderOverrides(); }
+    if(id==='supmap'){      setTimeout(()=>{ try{ if(_leafMap){_leafMap.invalidateSize();} else { renderMap(null);} }catch(_){} },120); }
+    if(id==='ingest'){      renderIngestLog(); }
+    if(id==='worklist'){    renderWorklist(ISSUES); }
+  }catch(e){ console.warn('runSectionRender('+id+')',e); }
+}
+
+function renderSyntheticTab(wsId, tabId, paneEl){
+  if(!paneEl) return;
+  // Disruptions
+  if(wsId==='ws-disruptions' && tabId==='triage'){
+    const issues = (window.ISSUES||[]).filter(i=>(i.tier==='C'||i.tier==='CRITICAL')||(i.score||0)>=80);
+    const alerts = (window.ALERTS_DATA||[]).slice(0,20);
+    paneEl.innerHTML = `
+      <div class="panel"><div class="ph"><div class="ph-t">Unified Triage Queue</div><div class="pb" style="color:var(--muted);font-size:11px;">Critical issues + high-tier alerts</div></div>
+      <table class="tbl"><thead><tr><th>Sev</th><th>ID</th><th>Title</th><th>Supplier</th><th>Score</th><th></th></tr></thead><tbody>
+      ${issues.slice(0,12).map(i=>`<tr>
+        <td><span class="badge br">${i.tier||'C'}</span></td>
+        <td style="font-family:var(--mono);font-size:11px;">${i.id||''}</td>
+        <td>${(i.title||i.subject||'').replace(/</g,'&lt;')}</td>
+        <td>${i.supplier?`<span class="entity-chip">${i.supplier}</span>`:''}</td>
+        <td><b>${i.score||''}</b></td>
+        <td><button class="btn btn-amber btn-sm" onclick="openIssue('${i.id}')">Open in Resolution Workspace →</button></td>
+      </tr>`).join('')}
+      ${alerts.map(a=>`<tr>
+        <td><span class="badge bg" style="background:var(--amber-bg);color:var(--amber);">A</span></td>
+        <td style="font-family:var(--mono);font-size:11px;">${a.id||''}</td>
+        <td>${(a.title||a.msg||'').replace(/</g,'&lt;')}</td>
+        <td>${a.supplier?`<span class="entity-chip">${a.supplier}</span>`:''}</td>
+        <td>—</td>
+        <td><button class="btn btn-ghost btn-sm" onclick="navTo('alerts')">View →</button></td>
+      </tr>`).join('')}
+      </tbody></table></div>`;
+    return;
+  }
+  if(wsId==='ws-disruptions' && tabId==='escalations'){
+    const list = (window.ISSUES||[]).filter(i=>String(i.status||'').toUpperCase()==='ESCALATED');
+    paneEl.innerHTML = `<div class="panel"><div class="ph"><div class="ph-t">Escalated Issues</div></div>
+      <table class="tbl"><thead><tr><th>ID</th><th>Title</th><th>Supplier</th><th>Owner</th><th>Score</th><th></th></tr></thead><tbody>
+      ${list.length?list.map(i=>`<tr><td style="font-family:var(--mono);font-size:11px;">${i.id}</td><td>${(i.title||'').replace(/</g,'&lt;')}</td><td>${i.supplier||''}</td><td>${i.owner||''}</td><td>${i.score||''}</td><td><button class="btn btn-amber btn-sm" onclick="openIssue('${i.id}')">Resolve →</button></td></tr>`).join(''):'<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:22px;">No escalations currently active.</td></tr>'}
+      </tbody></table></div>`;
+    return;
+  }
+  if(wsId==='ws-disruptions' && tabId==='timeline'){
+    const items = (window.ISSUES||[]).slice(0,10);
+    paneEl.innerHTML = `<div class="panel"><div class="ph"><div class="ph-t">Resolution Timeline (last 10 state changes)</div></div>
+      <div style="padding:14px;">${items.map((i,idx)=>`
+        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);">
+          <div style="font-family:var(--mono);font-size:10px;color:var(--muted);width:90px;">T-${(idx+1)*3}h</div>
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--amber);margin-top:5px;flex-shrink:0;"></div>
+          <div style="flex:1;"><b>${i.id}</b> · ${(i.title||'').replace(/</g,'&lt;')} <span class="badge br" style="margin-left:6px;">${i.status||'Detected'}</span><div style="font-size:11px;color:var(--muted);margin-top:2px;">${i.supplier||''}</div></div>
+        </div>`).join('')}</div></div>`;
+    return;
+  }
+  // Orders › Related Risks
+  if(wsId==='ws-orders' && tabId==='risks'){
+    const sel = (window.SWAT_CTX && window.SWAT_CTX.selectedEntity) || null;
+    const issues = (window.ISSUES||[]).filter(i=>!sel || i.supplier===sel.id || i.part===sel.id);
+    paneEl.innerHTML = `<div class="panel"><div class="ph"><div class="ph-t">Related Risks${sel?' · '+sel.id:''}</div></div>
+      <table class="tbl"><thead><tr><th>ID</th><th>Tier</th><th>Title</th><th>Supplier</th><th></th></tr></thead><tbody>
+      ${issues.slice(0,30).map(i=>`<tr><td style="font-family:var(--mono);font-size:11px;">${i.id}</td><td><span class="badge tier tier-${i.tier||'M'}">${i.tier||'M'}</span></td><td>${(i.title||'').replace(/</g,'&lt;')}</td><td>${i.supplier||''}</td><td><button class="btn btn-ghost btn-sm" onclick="openIssue('${i.id}')">Open →</button></td></tr>`).join('')}
+      </tbody></table></div>`;
+    return;
+  }
+  // Planning › Saved Scenarios
+  if(wsId==='ws-planning' && tabId==='scenarios'){
+    const scenarios = [
+      {t:'Taichung Port Shutdown', d:'48-hr typhoon-induced closure. Reroute via Kaohsiung.', impact:'+9d LT, $84k expedite'},
+      {t:'Carbon Fiber Spot Spike', d:'Spot price +22%. Hedge with secondary supplier.', impact:'+$132k COGS'},
+      {t:'TrailFlex Labor Unrest', d:'Strike risk at SUP-103 — pre-build buffer stock.', impact:'+14d delivery risk'},
+      {t:'Q3 Demand Surge', d:'Forecast +18% on Trail series. Pre-book capacity.', impact:'+$220k revenue at risk'},
+      {t:'Yangtze Logistics Slowdown', d:'Container shortage. Hold air-freight contingency.', impact:'+5d LT median'},
+    ];
+    paneEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">${scenarios.map(s=>`
+      <div class="panel" style="padding:14px;"><div style="font-weight:700;margin-bottom:6px;">${s.t}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">${s.d}</div>
+      <div class="badge br" style="margin-bottom:10px;">${s.impact}</div>
+      <button class="btn btn-amber btn-sm" onclick="navTo('whatif')">Load in What-If →</button></div>`).join('')}</div>`;
+    return;
+  }
+  // Planning › Recovery Plans
+  if(wsId==='ws-planning' && tabId==='recovery'){
+    const plans = (window.ISSUES||[]).slice(0,6).map((i,idx)=>({
+      title:'Recovery Plan #' + (idx+1) + ' · ' + (i.title||i.id),
+      entities:[i.supplier, i.part].filter(Boolean).join(', '),
+      savings:'$'+(40+idx*23)+'k',
+      status: idx%3===0?'Draft':(idx%3===1?'Approved':'In Flight')
+    }));
+    paneEl.innerHTML = `<div class="panel"><div class="ph"><div class="ph-t">Synthesized Recovery Plans</div></div>
+      <table class="tbl"><thead><tr><th>Plan</th><th>Affected</th><th>Est. Savings</th><th>Status</th></tr></thead><tbody>
+      ${plans.map(p=>`<tr><td>${p.title}</td><td>${p.entities||'—'}</td><td><b>${p.savings}</b></td><td><span class="badge">${p.status}</span></td></tr>`).join('')}
+      </tbody></table></div>`;
+    return;
+  }
+  // Suppliers › Profiles
+  if(wsId==='ws-suppliers' && tabId==='profiles'){
+    const sel = (window.SWAT_CTX && window.SWAT_CTX.selectedEntity && window.SWAT_CTX.selectedEntity.type==='supplier') ? window.SWAT_CTX.selectedEntity.id : ((window.suppliers||[])[0] && (window.suppliers[0].id || window.suppliers[0].code));
+    paneEl.innerHTML = `<div class="panel" style="padding:14px;"><div class="ph"><div class="ph-t">Supplier Profile · ${sel||'—'}</div></div>
+      <div id="ws-sup-profile-body" style="padding:6px 0;color:var(--muted);font-size:12px;">Select a supplier from the Directory tab to load their full profile (scorecard, active POs, commits, issues, location, lead-time variance, AI summary).</div></div>`;
+    try{
+      if(sel && typeof AIRecommendationCard==='function'){
+        const body = paneEl.querySelector('#ws-sup-profile-body');
+        if(body) body.innerHTML = AIRecommendationCard('supplier', sel) || body.innerHTML;
+      }
+    }catch(_){}
+    return;
+  }
+  if(wsId==='ws-suppliers' && tabId==='risks'){
+    const sel = (window.SWAT_CTX && window.SWAT_CTX.selectedEntity && window.SWAT_CTX.selectedEntity.type==='supplier') ? window.SWAT_CTX.selectedEntity.id : null;
+    const list = (window.ISSUES||[]).filter(i=>!sel || i.supplier===sel);
+    paneEl.innerHTML = `<div class="panel"><div class="ph"><div class="ph-t">Active Risks${sel?' · '+sel:''}</div></div>
+      <table class="tbl"><thead><tr><th>ID</th><th>Tier</th><th>Title</th><th>Supplier</th><th></th></tr></thead><tbody>
+      ${list.slice(0,40).map(i=>`<tr><td style="font-family:var(--mono);font-size:11px;">${i.id}</td><td><span class="badge tier tier-${i.tier||'M'}">${i.tier||'M'}</span></td><td>${(i.title||'').replace(/</g,'&lt;')}</td><td>${i.supplier||''}</td><td><button class="btn btn-ghost btn-sm" onclick="openIssue('${i.id}')">Open →</button></td></tr>`).join('')}
+      </tbody></table></div>`;
+    return;
+  }
+  if(wsId==='ws-suppliers' && tabId==='commithist'){
+    const sel = (window.SWAT_CTX && window.SWAT_CTX.selectedEntity && window.SWAT_CTX.selectedEntity.type==='supplier') ? window.SWAT_CTX.selectedEntity.id : null;
+    const list = (window.COMMIT_DATA||[]).filter(c=>!sel || c.supplier===sel || c.sid===sel);
+    paneEl.innerHTML = `<div class="panel"><div class="ph"><div class="ph-t">Commit History${sel?' · '+sel:''}</div></div>
+      <table class="tbl"><thead><tr><th>PO</th><th>Supplier</th><th>Part</th><th>Stage</th><th>Status</th></tr></thead><tbody>
+      ${list.slice(0,50).map(c=>`<tr><td style="font-family:var(--mono);font-size:11px;">${c.po||c.poId||''}</td><td>${c.supplier||c.sid||''}</td><td>${c.part||c.partId||''}</td><td>${c.stage||c.milestone||''}</td><td><span class="badge">${c.status||'OK'}</span></td></tr>`).join('')}
+      </tbody></table></div>`;
+    return;
+  }
+  // Platform › Advisor Controls
+  if(wsId==='ws-platform' && tabId==='advisor'){
+    paneEl.innerHTML = `<div class="panel" style="padding:18px;"><div class="ph"><div class="ph-t">AI Advisor Controls</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:14px 0;">
+        <div><label style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Confidence Threshold</label>
+          <input type="range" min="0" max="100" value="72" style="width:100%;margin-top:8px;"><div style="font-family:var(--mono);font-size:11px;color:var(--muted);">Min. confidence to surface a recommendation: <b style="color:var(--ink);">72%</b></div></div>
+        <div><label style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Auto-Recommendations on Alerts</label>
+          <div style="margin-top:8px;"><label style="display:flex;gap:8px;align-items:center;"><input type="checkbox" checked> Enabled</label></div></div>
+        <div><label style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Model Preference</label>
+          <select style="margin-top:8px;width:100%;padding:6px;background:var(--surface);color:var(--ink);border:1px solid var(--border);border-radius:4px;">
+            <option>Claude Opus 4.7 (Default)</option><option>Claude Sonnet 4.6 (Fast)</option><option>Claude Haiku 4 (Bulk)</option>
+          </select></div>
+        <div><label style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Tone</label>
+          <select style="margin-top:8px;width:100%;padding:6px;background:var(--surface);color:var(--ink);border:1px solid var(--border);border-radius:4px;">
+            <option>Operational / direct</option><option>Executive briefing</option><option>Analyst detail</option>
+          </select></div>
+      </div></div>`;
+    return;
+  }
+  paneEl.innerHTML = '<div class="panel" style="padding:20px;color:var(--muted);">No content for this tab.</div>';
+}
+
+function mountWorkspaceAI(wsId, tabId){
+  const mount = document.getElementById('ai-mount-' + wsId);
+  if(!mount) return;
+  if(typeof AIRecommendationCard !== 'function'){ mount.innerHTML=''; return; }
+  try{
+    const html = AIRecommendationCard('workspace', wsId+':'+tabId);
+    if(html) mount.innerHTML = html;
+  }catch(_){ /* AIRecommendationCard signature differs — leave empty */ }
+}
+
+// Wrap nav() to route legacy ids into workspace + tab
+(function(){
+  const _origNav = window.nav;
+  window.nav = function(id, el){
+    // Legacy id → workspace + tab
+    if(WORKSPACE_TAB_MAP[id]){
+      const m = WORKSPACE_TAB_MAP[id];
+      const wsEl = document.querySelector(`.ni[onclick*="'${m.ws}'"]`);
+      _origNav(m.ws, el && el.classList && el.classList.contains('ni') ? el : wsEl);
+      setTimeout(()=>switchWorkspaceTab(m.ws, m.tab), 30);
+      return;
+    }
+    // Workspace top-level id: restore other workspaces' migrated sections first
+    if(WS_IDS.indexOf(id) >= 0){
+      restoreAllExcept(id);
+      _origNav(id, el);
+      // Activate the default (currently .active) tab
+      const ws = document.getElementById('sec-' + id);
+      if(ws){
+        const activeTab = ws.querySelector(':scope > .ws-tabbar > .ws-tab.active');
+        const tabId = activeTab ? activeTab.dataset.tab : (ws.querySelector(':scope > .ws-tabbar > .ws-tab') || {}).dataset?.tab;
+        if(tabId) setTimeout(()=>switchWorkspaceTab(id, tabId), 30);
+      }
+      return;
+    }
+    // Plain section
+    restoreAllExcept(null); // restore everything before plain nav so target section is in DOM root
+    return _origNav.apply(this, arguments);
+  };
+})();
 
 function navToSupplierIssues(sid, tier){
   // Navigate to worklist filtered to this supplier (and optionally tier)
