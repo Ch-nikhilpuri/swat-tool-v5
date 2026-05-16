@@ -2359,6 +2359,56 @@ tr.demo-row-hl > td {
 .outcome-btn-ghost{background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1);}
 .outcome-btn-ghost:hover{background:rgba(255,255,255,.1);color:#fff;}
 
+/* ── Entity chips for cross-module deep links ── */
+.entity-chip{display:inline-flex;align-items:center;gap:4px;padding:1px 6px;border-radius:4px;background:var(--surface-2,rgba(245,158,11,.08));color:var(--blue);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .12s;border:1px solid transparent;text-decoration:none;}
+.entity-chip:hover{background:var(--amber-bg);color:var(--amber-dim);border-color:rgba(217,119,6,.3);}
+.entity-chip.supplier{color:var(--violet,#7c3aed);}
+.entity-chip.part{color:var(--blue);}
+.entity-chip.po{color:var(--green-dim,#15803d);}
+.entity-chip.issue{color:var(--amber-dim,#b45309);font-weight:700;}
+
+/* ── Resolution Workspace ── */
+.rw-stage{display:flex;align-items:flex-start;gap:10px;padding:8px 4px;cursor:pointer;position:relative;border-radius:6px;}
+.rw-stage:hover{background:var(--surface);}
+.rw-stage .rw-dot{width:12px;height:12px;border-radius:50%;background:var(--border);border:2px solid var(--card);flex-shrink:0;margin-top:3px;z-index:2;}
+.rw-stage.done .rw-dot{background:var(--green);}
+.rw-stage.current .rw-dot{background:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.25);}
+.rw-stage .rw-stage-lbl{font-size:12px;color:var(--ink);font-weight:600;}
+.rw-stage.pending .rw-stage-lbl{color:var(--muted);font-weight:500;}
+.rw-stage .rw-stage-sub{font-size:10px;color:var(--muted);font-family:var(--mono);}
+.rw-timeline-line{position:absolute;left:18px;top:24px;bottom:-4px;width:2px;background:var(--border);z-index:1;}
+.rw-tabbar{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 14px;background:var(--card);}
+.rw-tab{padding:10px 14px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;}
+.rw-tab.active{color:var(--amber);border-bottom-color:var(--amber);}
+.rw-tab:hover{color:var(--ink);}
+.rw-tab-body{padding:14px;overflow-y:auto;flex:1;min-height:0;}
+
+/* ── AI Recommendation card ── */
+.ai-rec-card{border:1px solid var(--border);border-radius:8px;background:var(--card);overflow:hidden;}
+.ai-rec-head{display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(90deg,rgba(217,119,6,.08),transparent);border-bottom:1px solid var(--border);}
+.ai-rec-head .ai-rec-title{font-family:var(--display);font-size:12px;font-weight:700;color:var(--ink);}
+.ai-rec-head .ai-rec-conf{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted);}
+.ai-rec-body{padding:11px 12px;font-size:12px;color:var(--ink);line-height:1.5;}
+.ai-rec-body ul{margin:6px 0;padding-left:18px;}
+.ai-rec-body li{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.ai-rec-foot{padding:8px 12px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap;}
+
+/* ── QuickActionsBar ── */
+.qa-bar{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px;}
+.qa-bar .btn{justify-content:center;font-size:11px;padding:7px 8px;}
+
+/* ── Planning Studio / Supplier 360 tabs ── */
+.studio-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.studio-tab{padding:8px 14px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;}
+.studio-tab.active{color:var(--amber);border-bottom-color:var(--amber);}
+.studio-tab:hover{color:var(--ink);}
+
+/* ── AI inline chip (worklist/alerts/PO rows) ── */
+.ai-inline-chip{display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:rgba(217,119,6,.08);color:var(--amber-dim,#b45309);font-size:10px;font-family:var(--mono);font-weight:600;cursor:pointer;border:1px solid rgba(217,119,6,.18);}
+.ai-inline-chip:hover{background:rgba(217,119,6,.16);}
+
+html.dark .entity-chip{background:rgba(245,158,11,.10);}
+html.dark .ai-rec-card{background:var(--card);}
 </style>
 </head>
 <body>
@@ -2410,6 +2460,7 @@ tr.demo-row-hl > td {
     <div class="ni" onclick="nav('ingest',this)" title="Data Ingest — ERP + spreadsheet uploads"><span class="ico">⬆</span><span class="ni-label">Data Ingest</span></div>
     <div class="ni" onclick="nav('tms',this)" title="TMS / WMS — live logistics integrations"><span class="ico">🔌</span><span class="ni-label">TMS / WMS</span></div>
     <div class="ni" onclick="nav('rules',this)" title="Business Rules — escalation policies + overrides"><span class="ico">⚙</span><span class="ni-label">Business Rules</span></div>
+    <div class="ni" onclick="nav('resolution',this)" title="Resolution Workspace — focused issue resolution"><span class="ico">🛠</span><span class="ni-label">Resolution Workspace</span></div>
   </nav>
   <div class="sb-foot">
     <span class="pulse"></span><strong>AI Agents Active</strong><br>
@@ -3732,6 +3783,15 @@ tr.demo-row-hl > td {
     <div class="rule-row"><div><div class="bold" style="font-size:12px;">Expedite cost &gt;$2K requires approval</div><div style="font-size:11px;color:var(--muted);">Category 1 — Enhancement phase</div></div><span class="badge ba">LOGGED</span></div>
     <div class="rule-row"><div><div class="bold" style="font-size:12px;">Supplier communication format enforcement</div><div style="font-size:11px;color:var(--muted);">Category 5 — Enhancement phase</div></div><span class="badge ba">LOGGED</span></div>
   </div></div></div>
+</section>
+
+<!-- ══ RESOLUTION WORKSPACE ══ -->
+<section class="sec" id="sec-resolution">
+  <div id="resolution-root" style="display:grid;grid-template-columns:260px 1fr 340px;gap:12px;min-height:560px;">
+    <div id="rw-timeline" class="panel" style="padding:14px 14px 18px;"></div>
+    <div id="rw-center" class="panel" style="padding:0;display:flex;flex-direction:column;min-width:0;"></div>
+    <div id="rw-rail" style="display:flex;flex-direction:column;gap:12px;min-width:0;"></div>
+  </div>
 </section>
 
 </div><!-- /content -->
@@ -8703,7 +8763,8 @@ const SEC_TITLES={
   whatif:'What-If: PO Delay', leadtime:'Lead Time Reality',
   performance:'Performance Dashboard', suppliers:'Supplier Registry',
   supmap:'Global Supplier Map', ingest:'Data Ingest',
-  tms:'TMS / WMS Integration', rules:'Business Rules'
+  tms:'TMS / WMS Integration', rules:'Business Rules',
+  resolution:'Resolution Workspace'
 };
 
 function navTo(id){
@@ -8740,6 +8801,10 @@ function nav(id,el){
   }
   if(id==='ingest'){   renderIngestLog(); }
   if(id==='whatif'){}
+  if(id==='resolution'){
+    const iid = (window.SWAT_CTX && window.SWAT_CTX.selectedIssue) || (ISSUES[0] && ISSUES[0].id);
+    setTimeout(()=>renderResolutionWorkspace(iid), 30);
+  }
   if(id==='worklist'){
     const wt=document.getElementById('wl-tier-filter'); if(wt) wt.value='';
     const ws=document.getElementById('wl-supplier-filter'); if(ws) ws.value='';
@@ -12518,6 +12583,612 @@ function toggleSidebar(){
 }
 
 init();
+
+/* ═══════════════════════════════════════════════════════════════════
+   SWAT EFFICIENCY LAYER — Context, deep-links, ContextPanel,
+   AIRecommendationCard, QuickActionsBar, Resolution Workspace,
+   Action Queue, Morning Brief, inline AI mounts, inline tab bars.
+   Added in modernization pass.
+   ═══════════════════════════════════════════════════════════════════ */
+
+window.SWAT_CTX = window.SWAT_CTX || { selectedIssue:null, selectedSupplier:null, selectedPO:null, selectedPart:null, rwTab:'overview' };
+window.ESCALATIONS = window.ESCALATIONS || [];
+function setContext(type, id){
+  if(type==='issue')    window.SWAT_CTX.selectedIssue = id;
+  if(type==='supplier') window.SWAT_CTX.selectedSupplier = id;
+  if(type==='po')       window.SWAT_CTX.selectedPO = id;
+  if(type==='part')     window.SWAT_CTX.selectedPart = id;
+}
+function swatToast(msg){
+  try{
+    let t=document.getElementById('swat-toast');
+    if(!t){ t=document.createElement('div'); t.id='swat-toast';
+      t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:6px;font-family:var(--mono);font-size:12px;z-index:99999;box-shadow:0 6px 24px rgba(0,0,0,.25);transition:opacity .2s;';
+      document.body.appendChild(t);
+    }
+    t.textContent=msg; t.style.opacity='1';
+    clearTimeout(window._swatToastT);
+    window._swatToastT=setTimeout(()=>{t.style.opacity='0';},2200);
+  }catch(e){}
+}
+
+/* ── Cross-module deep-link helpers (global) ── */
+window.openIssue = function(id){
+  window.SWAT_CTX.selectedIssue = id;
+  window.SWAT_CTX.rwTab='overview';
+  nav('resolution');
+  setTimeout(()=>renderResolutionWorkspace(id), 80);
+};
+window.openSupplier = function(sid){
+  window.SWAT_CTX.selectedSupplier = sid;
+  nav('suppliers');
+  setTimeout(()=>{
+    const el = document.querySelector('[data-supplier-id="'+sid+'"]');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 120);
+};
+window.openPO = function(po){
+  window.SWAT_CTX.selectedPO = po;
+  nav('orders');
+  setTimeout(()=>{
+    const filter = document.getElementById('po-filter') || document.querySelector('#sec-orders select');
+    if(filter){ try{ filter.value = po; filter.dispatchEvent(new Event('change')); }catch(e){} }
+  }, 120);
+};
+window.openPart = function(sku){
+  window.SWAT_CTX.selectedPart = sku;
+  nav('parts');
+  setTimeout(()=>{
+    const input = document.querySelector('#sec-parts input[type="text"]');
+    if(input){ input.value = sku; input.dispatchEvent(new Event('input')); }
+  }, 120);
+};
+window.openBOMNode = function(sku){
+  nav('bom');
+  setTimeout(()=>{
+    const node = document.querySelector('[data-bom-sku="'+sku+'"]');
+    if(node) node.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 200);
+};
+window.openSimulation = function(scenarioId){ nav('simulation'); };
+window.openCommsForSupplier = function(sid){
+  window.SWAT_CTX.selectedSupplier = sid;
+  nav('commsagent');
+};
+
+/* ── Entity-chip emitters ── */
+function chipSupplier(sid){
+  const s = sup(sid) || {name:sid};
+  return '<span class="entity-chip supplier" onclick="event.stopPropagation();openSupplier(\''+sid+'\')" title="Open supplier '+(s.name||sid)+'">'+sid+' · '+(s.name||'').slice(0,18)+'</span>';
+}
+function chipPart(sku){
+  return '<span class="entity-chip part" onclick="event.stopPropagation();openPart(\''+sku+'\')" title="Open part '+sku+'">'+sku+'</span>';
+}
+function chipPO(po){
+  return '<span class="entity-chip po" onclick="event.stopPropagation();openPO(\''+po+'\')" title="Open '+po+'">'+po+'</span>';
+}
+function chipIssue(id){
+  return '<span class="entity-chip issue" onclick="event.stopPropagation();openIssue(\''+id+'\')" title="Open '+id+' in Resolution Workspace">'+id+'</span>';
+}
+
+/* ── ContextPanel — shared right-rail panel describing an entity ── */
+function ContextPanel(entity){
+  if(!entity || !entity.id) return '';
+  const iss = entity.type==='issue' ? ISSUES.find(i=>i.id===entity.id) : null;
+  const sid = iss ? iss.sid : (entity.type==='supplier'?entity.id:null);
+  const s   = sid ? sup(sid) : null;
+  const otifRow = sid ? OTIF_DATA.find(o=>o.sid===sid) : null;
+  const otif = otifRow?otifRow.otif:(s?s.otif:null);
+  const ltRow = sid ? LT_DATA.find(l=>l.sid===sid) : null;
+  const relatedPos = sid ? pos.filter(p=>p.sid===sid).slice(0,5) : [];
+  const partSku = iss?iss.part:(entity.type==='part'?entity.id:null);
+  const bomModels = [];
+  if(partSku){
+    Object.keys(BOM_DATA||{}).forEach(mc=>{
+      const rows=BOM_DATA[mc]||[];
+      if(rows.some(r=>r.sku===partSku)){
+        const m=(BOM_MODELS||[]).find(bm=>bm.code===mc);
+        if(m) bomModels.push(m);
+      }
+    });
+  }
+  const locRow = partSku ? (LOC_PARTS||[]).find(l=>l.sku===partSku) : null;
+  const commit = sid ? (COMMIT_DATA||[]).find(c=>c.sid===sid) : null;
+
+  let html = '<div class="panel" style="padding:0;">';
+  html += '<div class="ph" style="padding:8px 12px;"><span class="ph-t" style="font-size:11px;">Context</span></div>';
+  html += '<div style="padding:10px 12px;display:flex;flex-direction:column;gap:11px;font-size:12px;">';
+
+  if(s){
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">Affected Supplier</div>';
+    html += '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">'+chipSupplier(sid);
+    if(s.risk) html += riskBadge(s.risk);
+    if(otif!=null) html += '<span style="font-family:var(--mono);font-size:10px;color:var(--muted);">OTIF '+otif+'%</span>';
+    html += '</div></div>';
+  }
+  if(relatedPos.length){
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">Affected POs</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:3px;">'+relatedPos.map(p=>chipPO(p.po)).join(' ')+'</div></div>';
+  }
+  if(partSku){
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">Affected Parts</div>';
+    html += '<div>'+chipPart(partSku)+'</div></div>';
+  }
+  if(bomModels.length){
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">BOM Exposure</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:3px;">'+bomModels.map(m=>'<span class="entity-chip" style="color:var(--amber-dim);" onclick="openBOMNode(\''+partSku+'\')">'+m.name+'</span>').join('')+'</div></div>';
+  }
+  if(locRow){
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">Inventory / Location</div>';
+    html += '<div style="font-family:var(--mono);font-size:11px;color:var(--ink);">On-hand '+(locRow.qty||locRow.qoh||'—')+' · <a class="entity-chip" onclick="nav(\'location\')">View</a></div></div>';
+  }
+  if(ltRow){
+    const variance = (ltRow.actual && ltRow.planned) ? Math.round(((ltRow.actual-ltRow.planned)/ltRow.planned)*100) : null;
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">Lead-Time Risk</div>';
+    html += '<div style="font-family:var(--mono);font-size:11px;">planned '+(ltRow.planned||'—')+'d · actual '+(ltRow.actual||'—')+'d';
+    if(variance!=null) html += ' · <span style="color:'+(variance>15?'var(--red)':variance>5?'var(--amber)':'var(--green)')+';">'+(variance>0?'+':'')+variance+'%</span>';
+    html += '</div></div>';
+  }
+  if(commit){
+    html += '<div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-bottom:4px;">Supplier Commit Status</div>';
+    html += '<div style="display:flex;gap:4px;flex-wrap:wrap;">';
+    ['POA','PS','PF','SH'].forEach(k=>{
+      const v = commit[k.toLowerCase()] || commit[k] || '';
+      const col = v && (''+v).toLowerCase().includes('late') ? 'var(--red)' : v ? 'var(--green)' : 'var(--muted)';
+      html += '<span style="font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(0,0,0,.04);color:'+col+';font-weight:700;">'+k+'</span>';
+    });
+    html += '</div></div>';
+  }
+  html += '</div></div>';
+  return html;
+}
+
+/* ── AI Recommendation Card ── */
+function AIRecommendationCard(entityType, entityId, opts){
+  opts = opts || {};
+  const iss = entityType==='issue' ? ISSUES.find(i=>i.id===entityId) : null;
+  let conf = 0.75, summary = 'Review supply data for risk.', risks = [], action = 'Review issue', impacts = [];
+  if(iss){
+    conf = Math.min(0.96, 0.55 + (iss.score/200) + (iss.proj_late>10?0.08:0));
+    const s = sup(iss.sid);
+    const otifRow = OTIF_DATA.find(o=>o.sid===iss.sid);
+    const otif = otifRow?otifRow.otif:(s?s.otif:80);
+    summary = iss.id+' on '+iss.part+' ('+s.name+') is '+iss.proj_late+'d late vs need '+iss.need+'. Score '+iss.score+'/100, tier '+iss.tier+'.';
+    summary += ' Recommended: escalate and request firm '+(iss.missing_ms||'SH')+' commit immediately.';
+    risks = [];
+    if(iss.commit && iss.commit.includes('No')) risks.push('No supplier commit received — visibility gap');
+    if(iss.proj_late>=8) risks.push(iss.proj_late+'d projected late impacts downstream production');
+    if(otif<80) risks.push(s.name+' OTIF is '+otif+'% — historical reliability is weak');
+    if(iss.tier==='CRITICAL') risks.push('CRITICAL tier — escalation policy fires in 4h without action');
+    if(!risks.length) risks.push('Monitor commit milestones; data complete.');
+    action = (iss.commit && iss.commit.includes('No'))?'Draft commit-request email to '+s.name:'Escalate '+iss.id+' to plant SC manager';
+    impacts = [iss.part, iss.sid, iss.po].filter(Boolean);
+  } else if(entityType==='supplier'){
+    const s = sup(entityId);
+    if(s){
+      summary = s.name+' is currently '+(s.risk||'green').toUpperCase()+' with OTIF '+(s.otif||0)+'% and avg delay '+(s.avgDelay||0)+'d.';
+      const openIssues = ISSUES.filter(i=>i.sid===entityId && i.status!=='RESOLVED');
+      if(openIssues.length){ risks.push(openIssues.length+' open issues across '+openIssues.map(i=>i.part).slice(0,3).join(', ')); }
+      if((s.otif||100)<80) risks.push('OTIF below 80% — diversification recommended');
+      if(!risks.length) risks.push('No active risk signals.');
+      action = 'Schedule QBR with '+s.name;
+      impacts = [entityId];
+      conf = 0.82;
+    }
+  } else {
+    summary = opts.summary || summary;
+    risks = opts.risks || risks;
+    action = opts.action || action;
+    impacts = opts.impacts || impacts;
+  }
+  const impactChips = impacts.map(x=>'<span class="entity-chip" style="font-size:10px;">'+x+'</span>').join(' ');
+  const applyCall = iss ? "aapDraftEmail('"+iss.id+"','"+iss.sid+"')" : "swatToast('Recommendation applied')";
+  return '<div class="ai-rec-card">'
+    +'<div class="ai-rec-head"><span style="font-size:14px;">🤖</span>'
+    +'<span class="ai-rec-title">AI Supply Advisor</span>'
+    +'<span class="ai-rec-conf">conf '+conf.toFixed(2)+'</span></div>'
+    +'<div class="ai-rec-body">'
+    +'<div>'+summary+'</div>'
+    +'<div style="margin-top:6px;font-size:10px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Why this matters</div>'
+    +'<ul>'+risks.map(r=>'<li>'+r+'</li>').join('')+'</ul>'
+    +'<div style="margin-top:4px;"><span style="font-size:10px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Recommended</span> &nbsp;<span style="color:var(--amber-dim);font-weight:600;">'+action+'</span></div>'
+    +(impactChips?'<div style="margin-top:6px;">'+impactChips+'</div>':'')
+    +'</div>'
+    +'<div class="ai-rec-foot">'
+    +'<button class="btn btn-amber btn-sm" onclick="'+applyCall+'">Apply recommendation</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="askAI(\'Explain advisor reasoning for '+(iss?iss.id:entityId)+'\');openAIPanel()">Explain</button>'
+    +'</div></div>';
+}
+
+/* ── QuickActionsBar ── */
+function QuickActionsBar(entity){
+  const iss = entity && entity.type==='issue' ? ISSUES.find(i=>i.id===entity.id) : null;
+  if(!iss) return '';
+  const sid = iss.sid;
+  return '<div class="panel" style="padding:0;">'
+    +'<div class="ph" style="padding:8px 12px;"><span class="ph-t" style="font-size:11px;">Quick Actions</span></div>'
+    +'<div class="qa-bar">'
+    +'<button class="btn btn-amber btn-sm" onclick="aapDraftEmail(\''+iss.id+'\',\''+sid+'\')">✉ Draft Email</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="rwRequestCommit(\''+iss.id+'\')">✓ Request Commit</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="rwRunSim(\''+iss.id+'\')">◈ Run Sim</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="rwEscalate(\''+iss.id+'\')">⚠ Escalate</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="window.SWAT_CTX.rwTab=\'bom\';renderResolutionWorkspace(\''+iss.id+'\')">⬡ BOM Impact</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="rwAdvanceStatus(\''+iss.id+'\')">'+(iss.status==='RESOLVED'?'✓ Reopen':iss.status==='IN_PROGRESS'?'✓ Close':'▶ In Progress')+'</button>'
+    +'</div></div>';
+}
+function rwRequestCommit(id){
+  const iss = ISSUES.find(i=>i.id===id); if(!iss) return;
+  if(typeof prefillCommitFull==='function'){ prefillCommitFull(iss.po,iss.part); }
+  if(typeof openM==='function'){ try{ openM('commitM'); }catch(e){} }
+  swatToast('Commit request prefilled for '+iss.po);
+}
+function rwRunSim(id){
+  const iss = ISSUES.find(i=>i.id===id); if(!iss) return;
+  window.SWAT_CTX.simIssue = id;
+  if(typeof simInit==='function'){
+    nav('simulation'); setTimeout(()=>{try{simInit();}catch(e){}}, 80);
+  } else {
+    swatToast('Simulation: '+iss.id+' would project '+iss.proj_late+'d delay');
+  }
+}
+function rwEscalate(id){
+  const iss = ISSUES.find(i=>i.id===id); if(!iss) return;
+  iss.escalated = !iss.escalated;
+  if(iss.escalated){ window.ESCALATIONS.push({id, ts:Date.now()}); swatToast('Escalated '+id); }
+  else swatToast('De-escalated '+id);
+  renderResolutionWorkspace(id);
+}
+function rwAdvanceStatus(id){
+  const iss = ISSUES.find(i=>i.id===id); if(!iss) return;
+  const order = ['OPEN','IN_PROGRESS','RESOLVED'];
+  let cur = order.indexOf(iss.status); if(cur<0) cur = 0;
+  iss.status = order[(cur+1)%order.length];
+  swatToast(id+' → '+iss.status);
+  renderResolutionWorkspace(id);
+}
+
+/* ── Resolution Workspace renderer ── */
+const RW_STAGES = ['Detected','Triaged','Supplier Contacted','Commit Updated','Simulation Run','Recovery Action','Closed'];
+function rwCurrentStage(iss){
+  if(!iss) return 0;
+  if(iss.status==='RESOLVED') return 6;
+  if(iss.escalated) return 5;
+  if(iss.commit && !iss.commit.includes('No')) return 3;
+  if(iss.status==='IN_PROGRESS' || iss.status==='AWAITING_SUPPLIER') return 2;
+  if(iss.status==='OPEN') return 1;
+  return 0;
+}
+function renderResolutionWorkspace(issueId){
+  const iss = ISSUES.find(i=>i.id===issueId) || ISSUES[0];
+  if(!iss) return;
+  window.SWAT_CTX.selectedIssue = iss.id;
+  const tab = window.SWAT_CTX.rwTab || 'overview';
+  const cur = rwCurrentStage(iss);
+
+  // Timeline
+  const tlEl = document.getElementById('rw-timeline');
+  if(tlEl){
+    tlEl.innerHTML = '<div class="ph-t" style="font-size:11px;margin-bottom:10px;">Resolution Timeline</div>'
+      +'<div style="position:relative;">'
+      +'<div class="rw-timeline-line"></div>'
+      +RW_STAGES.map((s,i)=>{
+        const cls = i<cur?'done':i===cur?'current':'pending';
+        return '<div class="rw-stage '+cls+'" onclick="swatToast(\''+s+'\')">'
+          +'<div class="rw-dot"></div>'
+          +'<div><div class="rw-stage-lbl">'+s+'</div>'
+          +'<div class="rw-stage-sub">'+(i<cur?'done':i===cur?'current':'pending')+'</div></div>'
+          +'</div>';
+      }).join('')
+      +'</div>'
+      +'<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);">Issue '+chipIssue(iss.id)+'<br><span style="font-size:10px;">'+iss.desc+'</span></div>';
+  }
+
+  // Center tabs
+  const cEl = document.getElementById('rw-center');
+  if(cEl){
+    const tabs = [['overview','Overview'],['po','PO Impact'],['bom','BOM Impact'],['hist','Supplier History'],['sim','Simulation']];
+    let body = '';
+    if(tab==='overview'){
+      body = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
+        +'<div class="panel" style="padding:14px;">'
+        +'<div style="font-size:10px;font-family:var(--mono);letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Issue Detail</div>'
+        +'<div style="font-family:var(--display);font-size:18px;font-weight:700;margin-bottom:6px;">'+chipIssue(iss.id)+'</div>'
+        +'<div style="font-size:13px;margin-bottom:8px;">'+chipPart(iss.part)+' · '+iss.desc+'</div>'
+        +'<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">'
+        +'<div>Supplier: '+chipSupplier(iss.sid)+'</div>'
+        +'<div>PO: '+chipPO(iss.po)+'</div>'
+        +'<div>Need: <span class="mono">'+iss.need+'</span></div>'
+        +'<div>Projected late: <span style="color:'+(iss.proj_late>0?'var(--red)':'var(--green)')+';font-weight:700;">'+iss.proj_late+'d</span></div>'
+        +'<div>Score: <span class="mono" style="color:'+sc(iss.score)+';font-weight:700;">'+iss.score+'</span> · '+tierBadge(iss.tier)+' · '+stBadge(iss.status,iss.id)+'</div>'
+        +'</div></div>'
+        +'<div class="panel" style="padding:14px;">'
+        +'<div style="font-size:10px;font-family:var(--mono);letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">AI Morning Brief</div>'
+        +'<div style="font-size:13px;line-height:1.6;color:var(--ink);">'
+        +'Issue '+iss.id+' affects '+chipPart(iss.part)+' supplied by '+chipSupplier(iss.sid)+'. '
+        +'Current projection: '+iss.proj_late+'d late vs need '+iss.need+'. '
+        +'Missing milestone: <strong>'+(iss.missing_ms||'SH')+'</strong>. '
+        +'Score '+iss.score+'/100 puts this in '+iss.tier+'. '
+        +(iss.commit&&iss.commit.includes('No')?'No supplier commit received — first action is to draft a commit-request email.':'Commit received but '+iss.proj_late+'d behind need date.')
+        +'</div></div></div>';
+    } else if(tab==='po'){
+      const supPos = pos.filter(p=>p.sid===iss.sid);
+      body = '<div class="panel" style="padding:0;"><div class="ph" style="padding:8px 12px;"><span class="ph-t">POs from '+sup(iss.sid).name+'</span></div>'
+        +'<table class="tbl"><thead><tr><th>PO</th><th>Due</th><th>Days Out</th><th>Terms</th></tr></thead><tbody>'
+        +supPos.map(p=>'<tr><td>'+chipPO(p.po)+'</td><td class="mono">'+p.due+'</td><td class="mono" style="color:'+(p.days<0?'var(--red)':'var(--ink)')+';">'+p.days+'d</td><td style="font-size:11px;color:var(--muted);">'+(p.paymentTerms||'—')+'</td></tr>').join('')
+        +'</tbody></table></div>';
+    } else if(tab==='bom'){
+      const models = [];
+      Object.keys(BOM_DATA||{}).forEach(mc=>{
+        const rows=BOM_DATA[mc]||[];
+        const r = rows.find(x=>x.sku===iss.part);
+        if(r){ const m=(BOM_MODELS||[]).find(bm=>bm.code===mc); if(m) models.push({m,row:r}); }
+      });
+      body = '<div class="panel" style="padding:14px;">'
+        +'<div class="ph-t" style="font-size:12px;margin-bottom:10px;">BOM Roll-up for '+chipPart(iss.part)+'</div>'
+        +(models.length?models.map(x=>{
+          const dem = (DEMAND_DATA && DEMAND_DATA.models && DEMAND_DATA.models[x.m.code] && DEMAND_DATA.models[x.m.code].monthly[3])||0;
+          const exposure = dem * (x.m.msrp||0);
+          return '<div style="padding:10px 12px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px;cursor:pointer;" onclick="openBOMNode(\''+iss.part+'\')">'
+            +'<div style="display:flex;justify-content:space-between;align-items:center;">'
+            +'<div><div style="font-weight:700;font-size:13px;">'+x.m.name+'</div>'
+            +'<div style="font-size:11px;color:var(--muted);font-family:var(--mono);">'+x.m.code+' · qty/bike '+(x.row.qtyBike||1)+'</div></div>'
+            +'<div style="text-align:right;"><div style="font-family:var(--mono);font-size:12px;color:var(--amber-dim);font-weight:700;">$'+exposure.toLocaleString()+'</div>'
+            +'<div style="font-size:10px;color:var(--muted);">monthly revenue exposure</div></div></div></div>';
+        }).join(''):'<div style="color:var(--muted);font-size:12px;">No BOM roll-up entries found.</div>')
+        +'</div>';
+    } else if(tab==='hist'){
+      const supIssues = ISSUES.filter(i=>i.sid===iss.sid).slice(0,8);
+      const lt = LT_DATA.find(l=>l.sid===iss.sid);
+      body = '<div class="panel" style="padding:14px;"><div class="ph-t" style="font-size:12px;margin-bottom:10px;">Recent issues from '+sup(iss.sid).name+'</div>'
+        +supIssues.map(i=>'<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed var(--border);font-size:12px;align-items:center;">'+chipIssue(i.id)+'<span style="flex:1;">'+i.desc+'</span>'+tierBadge(i.tier)+'<span class="mono" style="font-size:11px;color:'+(i.proj_late>0?'var(--red)':'var(--green)')+';">'+i.proj_late+'d</span></div>').join('')
+        +(lt?'<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--muted);">Lead time: planned '+lt.planned+'d · actual '+lt.actual+'d</div>':'')
+        +'</div>';
+    } else if(tab==='sim'){
+      body = '<div class="panel" style="padding:14px;">'
+        +'<div class="ph-t" style="font-size:12px;margin-bottom:8px;">Delay Simulation</div>'
+        +'<div style="font-size:12px;color:var(--muted);margin-bottom:12px;">Simulate the production impact of '+iss.id+' running '+iss.proj_late+'d late.</div>'
+        +'<button class="btn btn-amber btn-sm" onclick="rwRunSim(\''+iss.id+'\')">▶ Run delay simulation</button>'
+        +'<div style="margin-top:14px;padding:10px;background:var(--surface);border-radius:6px;font-size:12px;line-height:1.6;">'
+        +'<strong>Preview:</strong> A '+iss.proj_late+'d delay on '+iss.part+' propagates to '
+        +(Object.keys(BOM_DATA||{}).filter(mc=>(BOM_DATA[mc]||[]).some(r=>r.sku===iss.part)).length)+' model(s). '
+        +'Recommended buffer: '+(Math.max(7,iss.proj_late+3))+'d.'
+        +'</div></div>';
+    }
+    cEl.innerHTML = '<div class="rw-tabbar">'
+      +tabs.map(t=>'<div class="rw-tab '+(t[0]===tab?'active':'')+'" onclick="window.SWAT_CTX.rwTab=\''+t[0]+'\';renderResolutionWorkspace(\''+iss.id+'\')">'+t[1]+'</div>').join('')
+      +'</div><div class="rw-tab-body">'+body+'</div>';
+  }
+
+  // Right rail
+  const rEl = document.getElementById('rw-rail');
+  if(rEl){
+    rEl.innerHTML = ContextPanel({type:'issue',id:iss.id})
+      + AIRecommendationCard('issue', iss.id)
+      + QuickActionsBar({type:'issue',id:iss.id});
+  }
+}
+
+/* ── Action Queue + Morning Brief mounted on dashboard ── */
+function buildActionQueue(){
+  const items = [];
+  ISSUES.filter(i=>i.status!=='RESOLVED').forEach(i=>{
+    let sev='LOW';
+    if(i.score>=90 || i.tier==='CRITICAL') sev='CRITICAL';
+    else if(i.tier==='HIGH') sev='HIGH';
+    else if(i.tier==='MEDIUM') sev='MEDIUM';
+    items.push({sev, iss:i});
+  });
+  items.sort((a,b)=>{
+    const order={CRITICAL:0,HIGH:1,MEDIUM:2,LOW:3};
+    if(order[a.sev]!==order[b.sev]) return order[a.sev]-order[b.sev];
+    return b.iss.score-a.iss.score;
+  });
+  return items.slice(0,8);
+}
+function renderActionQueue(){
+  const host = document.getElementById('action-queue-list');
+  if(!host) return;
+  const items = buildActionQueue();
+  host.innerHTML = items.map(it=>{
+    const i=it.iss;
+    const dot = it.sev==='CRITICAL'?'var(--red)':it.sev==='HIGH'?'var(--amber)':it.sev==='MEDIUM'?'var(--blue)':'var(--muted)';
+    const desc = 'Resolve '+i.id+' — '+(i.commit&&i.commit.includes('No')?(i.missing_ms||'commit')+' missing':i.proj_late+'d late')+' — '+sup(i.sid).name;
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border);">'
+      +'<div style="width:8px;height:8px;border-radius:50%;background:'+dot+';flex-shrink:0;"></div>'
+      +'<div style="flex:1;min-width:0;"><div style="font-size:12px;color:var(--ink);">'+desc+'</div>'
+      +'<div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">'+chipIssue(i.id)+' '+chipSupplier(i.sid)+' '+chipPart(i.part)+' '+chipPO(i.po)+'</div></div>'
+      +'<button class="btn btn-amber btn-sm" onclick="openIssue(\''+i.id+'\')">Resolve →</button>'
+      +'</div>';
+  }).join('');
+}
+function renderMorningBrief(){
+  const el = document.getElementById('morning-brief-body'); if(!el) return;
+  const crit = ISSUES.filter(i=>i.tier==='CRITICAL'&&i.status!=='RESOLVED');
+  const top = crit.sort((a,b)=>b.score-a.score)[0] || ISSUES[0];
+  const s = sup(top.sid);
+  el.innerHTML = 'Overnight: 6 agents processed 27 events. <strong>'+crit.length+' CRITICAL</strong>. '
+    +'Top exposure: <strong>'+(BOM_MODELS.find(m=>(BOM_DATA[m.code]||[]).some(r=>r.sku===top.part))||{name:'production line'}).name+'</strong> ('+s.name+' '+(top.missing_ms||'commit')+' missing '+top.proj_late+'d). '
+    +'Recommended first action: <a class="entity-chip issue" onclick="openIssue(\''+top.id+'\')">Resolve '+top.id+'</a> → opens Resolution Workspace.';
+}
+function mountDashboardOps(){
+  const dash = document.getElementById('sec-dashboard'); if(!dash) return;
+  if(document.getElementById('morning-brief-card')) return; // idempotent
+  const rib = document.getElementById('workflow-ribbon');
+  const block = document.createElement('div');
+  block.id='dash-ops-block';
+  block.style.cssText='margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;';
+  block.innerHTML =
+    '<div id="morning-brief-card" class="panel" style="padding:0;border-left:3px solid var(--amber);overflow:hidden;">'
+    +'<div class="ph" style="padding:8px 14px;"><span class="ph-t" style="font-size:11px;">🌅 Morning Brief</span>'
+    +'<span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto;">deterministic · refreshed</span></div>'
+    +'<div id="morning-brief-body" style="padding:11px 14px;font-size:12px;line-height:1.6;color:var(--ink);"></div>'
+    +'</div>'
+    +'<div class="panel" style="padding:0;overflow:hidden;">'
+    +'<div class="ph" style="padding:8px 14px;"><span class="ph-t" style="font-size:11px;">⚡ Prioritized Action Queue</span>'
+    +'<span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto;">top 8</span></div>'
+    +'<div id="action-queue-list" style="max-height:340px;overflow-y:auto;"></div>'
+    +'</div>';
+  if(rib && rib.parentNode){ rib.parentNode.insertBefore(block, rib.nextSibling); }
+  else { dash.insertBefore(block, dash.firstChild); }
+  renderMorningBrief();
+  renderActionQueue();
+}
+
+/* ── Inline AI mounts on Alert Queue, Worklist (post-render), PO rows ── */
+function mountInlineAIWorklist(){
+  document.querySelectorAll('#wl-tbody tr.wl-main').forEach(row=>{
+    const id = row.dataset.id; const iss = ISSUES.find(i=>i.id===id);
+    if(!iss || iss.score<70) return;
+    if(row.querySelector('.ai-inline-chip')) return;
+    const idCell = row.querySelector('td:nth-child(2)');
+    if(idCell){
+      const chip = document.createElement('div');
+      chip.style.cssText='margin-top:4px;';
+      chip.innerHTML = '<span class="ai-inline-chip" onclick="event.stopPropagation();openIssue(\''+id+'\')" title="AI: '+iss.proj_late+'d late · score '+iss.score+'">🤖 '+(iss.missing_ms||'SH')+' risk</span>';
+      idCell.appendChild(chip);
+    }
+    const lastCell = row.querySelector('td:last-child > div');
+    if(lastCell && !lastCell.querySelector('.btn-rw')){
+      const b = document.createElement('button');
+      b.className='btn btn-amber btn-sm btn-rw';
+      b.style.cssText='padding:3px 8px;font-size:10px;';
+      b.textContent='Workspace';
+      b.onclick = function(e){ e.stopPropagation(); openIssue(id); };
+      lastCell.appendChild(b);
+    }
+  });
+}
+function mountInlineAIAlerts(){
+  document.querySelectorAll('#alert-tbody tr, #alert-queue-list .alert-row').forEach(row=>{
+    if(row.querySelector('.ai-inline-chip')) return;
+    const txt = row.textContent || '';
+    if(/CRITICAL/i.test(txt)){
+      const cell = row.querySelector('td:last-child') || row;
+      const span = document.createElement('span');
+      span.className='ai-inline-chip';
+      span.style.marginLeft='6px';
+      span.innerHTML='🤖 Suggest action';
+      span.onclick=function(e){ e.stopPropagation(); openAIPanel(); };
+      cell.appendChild(span);
+    }
+  });
+}
+function mountInlineAIPO(){
+  document.querySelectorAll('#po-tbody tr').forEach(row=>{
+    if(row.querySelector('.ai-inline-chip')) return;
+    const txt = (row.textContent||'').toLowerCase();
+    if(txt.includes('late')||txt.includes('no commit')||txt.includes('uncommit')){
+      const cell = row.querySelector('td:last-child') || row;
+      const span = document.createElement('span');
+      span.className='ai-inline-chip';
+      span.style.marginLeft='6px';
+      span.textContent='🤖 At risk';
+      cell.appendChild(span);
+    }
+  });
+}
+
+/* ── Planning Studio + Supplier 360 inline tabs ── */
+function mountPlanningStudioTabs(){
+  const sec = document.getElementById('sec-demand'); if(!sec) return;
+  if(document.getElementById('planning-studio-tabs')) return;
+  const bar = document.createElement('div');
+  bar.id='planning-studio-tabs';
+  bar.className='studio-tabs';
+  bar.innerHTML = [
+    ['demand','Demand'],
+    ['bom','BOM Explorer'],
+    ['mrp','MRP'],
+    ['leadtime','Lead Time Reality'],
+    ['whatif','What-If: PO Delay']
+  ].map(t=>'<div class="studio-tab '+(t[0]==='demand'?'active':'')+'" onclick="nav(\''+t[0]+'\')">'+t[1]+'</div>').join('');
+  sec.insertBefore(bar, sec.firstChild);
+}
+function mountSupplier360Tabs(){
+  const sec = document.getElementById('sec-suppliers'); if(!sec) return;
+  if(document.getElementById('supplier360-tabs')) return;
+  const bar = document.createElement('div');
+  bar.id='supplier360-tabs';
+  bar.className='studio-tabs';
+  bar.innerHTML = [
+    ['suppliers','Overview'],
+    ['supmap','Map'],
+    ['performance','Performance'],
+    ['worklist','Active Issues'],
+    ['location','Locations'],
+    ['commits','Commits']
+  ].map(t=>'<div class="studio-tab '+(t[0]==='suppliers'?'active':'')+'" onclick="nav(\''+t[0]+'\')">'+t[1]+'</div>').join('');
+  sec.insertBefore(bar, sec.firstChild);
+}
+
+/* ── Inline AI mount on Suppliers detail / BOM / Simulation ── */
+function mountSupplierAdvisor(){
+  const sec=document.getElementById('sec-suppliers'); if(!sec) return;
+  if(document.getElementById('supplier-advisor-strip')) return;
+  const sid = (window.SWAT_CTX && window.SWAT_CTX.selectedSupplier) || (suppliers[0] && suppliers[0].id);
+  if(!sid) return;
+  const div=document.createElement('div');
+  div.id='supplier-advisor-strip';
+  div.style.cssText='margin-bottom:12px;';
+  div.innerHTML = AIRecommendationCard('supplier', sid);
+  sec.insertBefore(div, sec.firstChild.nextSibling || sec.firstChild);
+}
+function mountBOMAdvisor(){
+  const sec=document.getElementById('sec-bom'); if(!sec) return;
+  if(document.getElementById('bom-advisor-strip')) return;
+  // Pick top risk issue's part for advisor narrative
+  const crit = ISSUES.filter(i=>i.tier==='CRITICAL'&&i.status!=='RESOLVED').sort((a,b)=>b.score-a.score)[0];
+  if(!crit) return;
+  const div=document.createElement('div');
+  div.id='bom-advisor-strip';
+  div.style.cssText='margin-bottom:12px;';
+  div.innerHTML = AIRecommendationCard('issue', crit.id);
+  sec.insertBefore(div, sec.firstChild);
+}
+function mountSimAdvisor(){
+  const sec=document.getElementById('sec-simulation'); if(!sec) return;
+  if(document.getElementById('sim-advisor-strip')) return;
+  const iid = (window.SWAT_CTX && window.SWAT_CTX.simIssue) || (ISSUES[0]&&ISSUES[0].id);
+  const div=document.createElement('div');
+  div.id='sim-advisor-strip';
+  div.style.cssText='margin-bottom:12px;';
+  div.innerHTML = AIRecommendationCard('issue', iid);
+  sec.insertBefore(div, sec.firstChild);
+}
+
+/* ── aapDraftEmail fallback if not present ── */
+if(typeof window.aapDraftEmail!=='function'){
+  window.aapDraftEmail = function(issId, sid){
+    const iss = ISSUES.find(i=>i.id===issId); if(!iss) return;
+    const s = sup(sid);
+    const body = 'Hi '+(s.primary?s.primary.name:s.name)+',\n\nWe need an updated commit for '+iss.part+' ('+iss.desc+'), PO '+iss.po+'. Need date '+iss.need+', currently projecting '+iss.proj_late+'d late.\n\nPlease confirm '+(iss.missing_ms||'SH')+' milestone today.\n\nThanks,\nSWAT';
+    try{ alert('Draft to '+s.name+':\n\n'+body); }catch(e){}
+    nav('commsagent');
+  };
+}
+
+/* ── Hook into nav() for post-render mounts ── */
+(function(){
+  const _origNav = window.nav;
+  if(typeof _origNav !== 'function') return;
+  window.nav = function(id, el){
+    _origNav(id, el);
+    setTimeout(()=>{
+      if(id==='dashboard') mountDashboardOps();
+      if(id==='worklist')  mountInlineAIWorklist();
+      if(id==='alerts')    mountInlineAIAlerts();
+      if(id==='orders')    mountInlineAIPO();
+      if(id==='demand')    mountPlanningStudioTabs();
+      if(id==='suppliers'){ mountSupplier360Tabs(); mountSupplierAdvisor(); }
+      if(id==='bom')       mountBOMAdvisor();
+      if(id==='simulation')mountSimAdvisor();
+    }, 200);
+  };
+})();
+
+/* ── First-load: mount dashboard ops on initial paint ── */
+setTimeout(()=>{ try{ mountDashboardOps(); }catch(e){} }, 250);
+
 </script>
 
 
