@@ -1860,6 +1860,240 @@ body.demo-meeting-on #demo-control-bar.dragged {
    DEMO FOCUS MODE — Cinematic Spotlight + Grey-out + Click System
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════════════
+   AI SUPPLY ADVISOR — Contextual operational rail (Phase 2 modernization)
+   Appears on every module. Content adapts to current section.
+   ═══════════════════════════════════════════════════════════════════ */
+#ai-advisor-trigger {
+  background: linear-gradient(135deg, rgba(217,119,6,.18), rgba(217,119,6,.08));
+  border: 1px solid rgba(217,119,6,.4);
+  color: var(--amber);
+  font-weight: 700;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px 5px 8px;
+  position: relative;
+}
+#ai-advisor-trigger:hover {
+  background: linear-gradient(135deg, rgba(217,119,6,.28), rgba(217,119,6,.15));
+  border-color: rgba(217,119,6,.6);
+}
+.ai-trigger-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--amber);
+  margin-right: 2px;
+  box-shadow: 0 0 0 0 rgba(217,119,6,.6);
+  animation: aiTriggerPulse 2.2s ease-out infinite;
+}
+@keyframes aiTriggerPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(217,119,6,.5); }
+  50%     { box-shadow: 0 0 0 6px rgba(217,119,6,0); }
+}
+.ai-trigger-badge {
+  background: var(--amber);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  margin-left: 2px;
+}
+
+/* Slide-out advisor panel — preserves SWAT visual style */
+#ai-advisor-panel {
+  position: fixed;
+  top: 0; right: -400px; bottom: 0;
+  width: 380px;
+  z-index: 195;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  box-shadow: -12px 0 40px rgba(0,0,0,.25);
+  transition: right .35s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font);
+}
+#ai-advisor-panel.open { right: 0; }
+html.dark #ai-advisor-panel {
+  background: var(--ink-2);
+}
+
+.aap-header {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(217,119,6,.06), transparent);
+}
+.aap-title-wrap { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.aap-pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 0 rgba(217,119,6,.6);
+  animation: aiTriggerPulse 2.2s ease-out infinite;
+  flex-shrink: 0;
+}
+.aap-title {
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -.2px;
+}
+.aap-context {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--amber-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  margin-top: 2px;
+}
+.aap-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.aap-close:hover { background: var(--surface-2); color: var(--ink); }
+
+.aap-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px 16px;
+}
+
+.aap-section { margin-bottom: 16px; }
+.aap-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.6px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.aap-focus {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  padding: 10px 12px;
+  background: var(--surface);
+  border-left: 2px solid var(--amber);
+  border-radius: 4px;
+}
+.aap-rec {
+  display: flex;
+  gap: 9px;
+  padding: 9px 10px;
+  margin-bottom: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all .15s;
+}
+.aap-rec:hover {
+  background: var(--surface-2);
+  border-color: rgba(217,119,6,.4);
+  transform: translateX(-2px);
+}
+.aap-rec-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--amber-dim);
+  background: var(--amber-bg);
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.aap-rec-text { flex: 1; color: var(--ink); }
+.aap-rec-target {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--amber);
+  margin-top: 3px;
+  letter-spacing: .6px;
+}
+.aap-related {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.aap-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all .15s;
+}
+.aap-link:hover {
+  border-color: var(--amber);
+  background: var(--amber-bg);
+  color: var(--amber-dim);
+}
+.aap-link-arrow {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.aap-link:hover .aap-link-arrow { color: var(--amber); }
+
+.aap-ask {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.aap-ask-row {
+  display: flex; gap: 6px;
+}
+.aap-ask-input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: var(--ink);
+  outline: none;
+}
+.aap-ask-input:focus { border-color: var(--amber); }
+.aap-ask-btn {
+  padding: 7px 12px;
+  background: var(--amber);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.aap-ask-btn:hover { opacity: .9; }
+
+/* When advisor is open, push main content slightly */
+body.ai-advisor-on .main {
+  margin-right: 380px;
+  transition: margin-right .35s cubic-bezier(.4,0,.2,1);
+}
+@media (max-width: 1280px) {
+  body.ai-advisor-on .main { margin-right: 0; }
+  #ai-advisor-panel { box-shadow: -16px 0 60px rgba(0,0,0,.5); }
+}
+
 /* ── Spotlight box: bright cutout window, everything else darkened via box-shadow ── */
 #demo-spotlight-box {
   position:fixed; z-index:8992; pointer-events:none;
@@ -2203,6 +2437,11 @@ tr.demo-row-hl > td {
     <div class="dark-toggle" id="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
       <div class="dark-toggle-thumb"></div>
     </div>
+    <!-- AI Supply Advisor trigger — contextual operational intelligence -->
+    <button id="ai-advisor-trigger" class="btn btn-sm" onclick="toggleAIAdvisor()" title="AI Supply Advisor — contextual recommendations">
+      <span class="ai-trigger-pulse"></span>
+      <span style="margin-right:4px;">🤖</span>Advisor<span class="ai-trigger-badge" id="ai-trigger-badge">3</span>
+    </button>
     <button id="demo-btn" class="btn btn-ghost btn-sm" onclick="showPersonaOverlay()" title="Launch guided demo">▶ Demo</button>
     <button class="btn btn-ghost btn-sm" onclick="openM('ingestM')">⬆ Ingest Data</button>
     <button class="btn btn-ghost btn-sm" onclick="refreshERP()">↻ Refresh</button>
@@ -11891,6 +12130,384 @@ function disableDark(){
   setTimeout(()=>{renderShortageTrendChart();renderAgingChart();},50);
 }
 
+// ═══════════════════════════════════════════════════════════════════
+// AI SUPPLY ADVISOR — contextual operational intelligence rail
+// Adapts content to whichever module the user is currently in.
+// Bridges Alert Queue → Issue Worklist → PO Manager → Supplier Commits
+// → AI Comms Agent → What-If by surfacing the "next action" everywhere.
+// ═══════════════════════════════════════════════════════════════════
+const AI_ADVISOR_CONTEXTS = {
+  dashboard: {
+    label: 'PRODUCT REVIEW BOARD · LIVE',
+    focus: '4 critical issues require immediate action. Top concern: ISS-1041 (CD-COM-11020 rear shock) — TrailFlex has no Purchase Order Acknowledgement after 22 days. Dirt and Sports product lines show elevated risk for April-May.',
+    recommendations: [
+      { text: 'Escalate ISS-1041 to TrailFlex now — escalation agent has draft ready.', target: 'commsagent', label: 'Open Comms Agent →' },
+      { text: 'Run What-If simulation: pull Sports build forward, push Dirt to Week 17.', target: 'whatif', label: 'Open What-If →' },
+      { text: 'Review 4 critical issues before standup — all need owner assignment.', target: 'worklist', label: 'Open Worklist →' },
+    ],
+    related: [
+      { label: 'Issue Worklist', count: '12', target: 'worklist' },
+      { label: 'Alert Queue', count: '9', target: 'alerts' },
+      { label: 'Supplier Performance', target: 'performance' },
+      { label: 'Active Simulations', target: 'simulation' },
+    ],
+  },
+  worklist: {
+    label: 'ISSUE WORKLIST · 12 OPEN',
+    focus: 'ISS-1041 has the highest priority score (94). 22 days projected late with no POA from TrailFlex — checkpoint is Purchase Order Acknowledgement. Recommend Escalate Now.',
+    recommendations: [
+      { text: 'Claim ISS-1041 and trigger escalation — auto-email drafted to Jordan Blackwood @ TrailFlex.', target: 'commsagent', label: 'Open Comms Agent →' },
+      { text: 'Check PO-2026-08821 commit milestones — POA still missing after 22 days.', target: 'commits', label: 'Open Supplier Commits →' },
+      { text: 'View supplier TrailFlex scorecard — OTIF 71%, 3 critical issues this quarter.', target: 'suppliers', label: 'Open Supplier Registry →' },
+    ],
+    related: [
+      { label: 'Alert Queue', count: '9', target: 'alerts' },
+      { label: 'PO Manager', target: 'orders' },
+      { label: 'Supplier Commits', count: '6', target: 'commits' },
+      { label: 'What-If: PO Delay', target: 'whatif' },
+    ],
+  },
+  alerts: {
+    label: 'ALERT QUEUE · 9 ACTIVE',
+    focus: '4 critical alerts within SLA window. TrailFlex POA missing on 2 POs (ISS-1041, ISS-1055). AeroCarbon PF unconfirmed on ISS-1038. Escalation Agent has auto-drafted notices for all 4.',
+    recommendations: [
+      { text: 'Bulk-acknowledge the 4 critical alerts — escalation agent ready to dispatch.', target: 'commsagent', label: 'Open Comms Agent →' },
+      { text: 'Open ISS-1041 in the Worklist to add operational context before escalating.', target: 'worklist', label: 'Open Worklist →' },
+      { text: 'Review escalation policy thresholds — currently 4h for CRITICAL.', target: 'rules', label: 'Open Business Rules →' },
+    ],
+    related: [
+      { label: 'Issue Worklist', count: '12', target: 'worklist' },
+      { label: 'AI Comms Agent', count: '4', target: 'commsagent' },
+      { label: 'Supplier Performance', target: 'performance' },
+    ],
+  },
+  commsagent: {
+    label: 'AI COMMS AGENT · 6 ONLINE',
+    focus: 'Overnight, agents processed 4 supplier emails and dispatched 2 escalation notices (TrailFlex, AeroCarbon). The Risk Model Agent re-scored all 13 Purchase Order lines. 1 exception needs human review: AeroCarbon scope-change request.',
+    recommendations: [
+      { text: 'Review the AeroCarbon scope-change message — agent escalated for human decision.', target: 'commsagent', label: 'View inbox →' },
+      { text: 'Approve the escalation draft to TrailFlex re ISS-1041 — ready to send.', target: 'alerts', label: 'Open Alert Queue →' },
+      { text: 'Audit overnight agent log — 27 autonomous actions executed.', target: 'commsagent', label: 'View activity →' },
+    ],
+    related: [
+      { label: 'Alert Queue', count: '9', target: 'alerts' },
+      { label: 'Issue Worklist', count: '12', target: 'worklist' },
+      { label: 'Supplier Commits', count: '6', target: 'commits' },
+    ],
+  },
+  orders: {
+    label: 'PO MANAGER',
+    focus: '13 Purchase Order lines under management. 4 PO lines have risk class CRITICAL or HIGH. Top concern: PO-2026-08821 (TrailFlex Rear Shock) — POA still missing 22 days after issue date.',
+    recommendations: [
+      { text: 'Open PO-2026-08821 commit milestones — POA red, others inferred only.', target: 'commits', label: 'Open Commits →' },
+      { text: 'Run What-If: extend TrailFlex lead time by 7 days, see Dirt build impact.', target: 'whatif', label: 'Open What-If →' },
+      { text: 'Review TrailFlex part history before escalating further.', target: 'parts', label: 'Open Parts Tracker →' },
+    ],
+    related: [
+      { label: 'Supplier Commits', count: '6', target: 'commits' },
+      { label: 'Parts Tracker', count: '12', target: 'parts' },
+      { label: 'Lead Time Reality', target: 'leadtime' },
+      { label: 'Supplier Registry', target: 'suppliers' },
+    ],
+  },
+  commits: {
+    label: 'SUPPLIER COMMITS · 13 PO LINES',
+    focus: '6 PO lines have one or more overdue milestones. TrailFlex PO-2026-08821: POA 22d overdue, PS missing, PF inferred only. AeroCarbon PO-2026-08744: PS late by 3d, PF unconfirmed. SWAT inferred 11 of 13 timelines automatically from issue date + lead time.',
+    recommendations: [
+      { text: 'Escalate the 4 CRITICAL PO lines — auto-drafted emails ready in Comms Agent.', target: 'commsagent', label: 'Open Comms Agent →' },
+      { text: 'Drill into PO-2026-08821 — show full milestone history and AI risk dimensions.', target: 'orders', label: 'Open PO Manager →' },
+      { text: 'Open the Issue Worklist filtered to these CRITICAL PO lines.', target: 'worklist', label: 'Open Worklist →' },
+    ],
+    related: [
+      { label: 'PO Manager', target: 'orders' },
+      { label: 'Issue Worklist', count: '12', target: 'worklist' },
+      { label: 'Lead Time Reality', target: 'leadtime' },
+      { label: 'Supplier Performance', target: 'performance' },
+    ],
+  },
+  parts: {
+    label: 'PARTS TRACKER · 12 AT RISK',
+    focus: 'CD-COM-11020 (rear shock) and CS-RAW-11011 (carbon frameset) are the most exposed parts — both feed multiple bicycle models. CD-COM-11020 has no inventory buffer; CS-RAW-11011 has 8 days of cover.',
+    recommendations: [
+      { text: 'View BOM rollup for CD-COM-11020 — affects 42 Dirt units in April.', target: 'bom', label: 'Open BOM Explorer →' },
+      { text: 'Check current location of in-transit shipments for these parts.', target: 'location', label: 'Open Location View →' },
+      { text: 'Run MRP exception check — net requirements vs available stock.', target: 'mrp', label: 'Open MRP →' },
+    ],
+    related: [
+      { label: 'BOM Explorer', target: 'bom' },
+      { label: 'PO Manager', target: 'orders' },
+      { label: 'Material Req. (MRP)', target: 'mrp' },
+      { label: 'Location View', target: 'location' },
+    ],
+  },
+  bom: {
+    label: 'BOM EXPLORER · 5 PRODUCT LINES',
+    focus: 'Dirt model has 3 critical components (Rear Shock, Front Fork, Frameset) with active supply risk. Sports model shares Carbon Frameset dependency with Dirt — single-point-of-failure on AeroCarbon for both.',
+    recommendations: [
+      { text: 'Identify alternate suppliers for CS-RAW-11011 carbon frameset.', target: 'suppliers', label: 'Open Supplier Registry →' },
+      { text: 'Run What-If: dual-source carbon frameset for Dirt + Sports lines.', target: 'whatif', label: 'Open What-If →' },
+      { text: 'View MRP net requirements for these BOM nodes.', target: 'mrp', label: 'Open MRP →' },
+    ],
+    related: [
+      { label: 'Parts Tracker', count: '12', target: 'parts' },
+      { label: 'Material Req. (MRP)', target: 'mrp' },
+      { label: 'Demand Planning', target: 'demand' },
+    ],
+  },
+  mrp: {
+    label: 'MRP · NET REQUIREMENTS',
+    focus: 'Net shortage on CD-COM-11020 (rear shock) for April: 42 units. No alternate supplier currently qualified. Lead time from TrailFlex (35 days) exceeds time remaining to Dirt April build.',
+    recommendations: [
+      { text: 'Open What-If: pull Sports build forward to free capacity.', target: 'whatif', label: 'Open What-If →' },
+      { text: 'Review Demand Planning — can Dirt April demand be shifted to May?', target: 'demand', label: 'Open Demand Planning →' },
+      { text: 'Audit lead time variance for TrailFlex — actuals running 5d over planned.', target: 'leadtime', label: 'Open Lead Time Reality →' },
+    ],
+    related: [
+      { label: 'BOM Explorer', target: 'bom' },
+      { label: 'Demand Planning', target: 'demand' },
+      { label: 'What-If: PO Delay', target: 'whatif' },
+    ],
+  },
+  whatif: {
+    label: 'WHAT-IF · PO DELAY SIMULATION',
+    focus: 'Active scenario: TrailFlex Rear Shock delayed +14 days. Result: 42 Dirt units cannot ship by need date. Alternative: pull Sports build to Week 15, push Dirt to Week 17 — projected revenue saved $420K.',
+    recommendations: [
+      { text: 'Commit the recovery plan and update the production schedule.', target: 'demand', label: 'Open Demand Planning →' },
+      { text: 'Run full simulation including AeroCarbon PF risk in same scenario.', target: 'simulation', label: 'Open Simulation →' },
+      { text: 'Open the Worklist to validate which issues this resolves.', target: 'worklist', label: 'Open Worklist →' },
+    ],
+    related: [
+      { label: 'Simulation', target: 'simulation' },
+      { label: 'Demand Planning', target: 'demand' },
+      { label: 'Issue Worklist', count: '12', target: 'worklist' },
+    ],
+  },
+  leadtime: {
+    label: 'LEAD TIME REALITY',
+    focus: 'TrailFlex (SUSP-19) actual lead time running 5 days over planned across rolling 90 days. AeroCarbon (CARB-17) variance worsening — trend up 18% MoM. These two suppliers drive most operational risk.',
+    recommendations: [
+      { text: 'Update planning lead times for TrailFlex from 30d to 35d to reflect reality.', target: 'rules', label: 'Open Business Rules →' },
+      { text: 'Review TrailFlex performance trend over last 6 months.', target: 'performance', label: 'Open Performance →' },
+      { text: 'Run What-If with adjusted lead times to see April impact.', target: 'whatif', label: 'Open What-If →' },
+    ],
+    related: [
+      { label: 'Supplier Performance', target: 'performance' },
+      { label: 'PO Manager', target: 'orders' },
+      { label: 'Material Req. (MRP)', target: 'mrp' },
+    ],
+  },
+  performance: {
+    label: 'SUPPLIER PERFORMANCE',
+    focus: 'AeroCarbon at 61% OTIF — worst in the fleet, trend worsening. TrailFlex at 71% — driver of most current critical issues. Fleet OTIF: 74% vs target 85%.',
+    recommendations: [
+      { text: 'Recommend dual-sourcing for carbon frameset and rear shock categories.', target: 'suppliers', label: 'Open Supplier Registry →' },
+      { text: 'Schedule supplier business review for TrailFlex with data export.', target: 'commsagent', label: 'Draft message →' },
+      { text: 'Audit how many critical issues these 2 suppliers caused YTD.', target: 'worklist', label: 'Open Worklist →' },
+    ],
+    related: [
+      { label: 'Supplier Registry', target: 'suppliers' },
+      { label: 'Lead Time Reality', target: 'leadtime' },
+      { label: 'Issue Worklist', count: '12', target: 'worklist' },
+    ],
+  },
+  suppliers: {
+    label: 'SUPPLIER REGISTRY · 19 SUPPLIERS',
+    focus: '2 suppliers in RED risk class (AeroCarbon, RideTech). 5 in AMBER. Tier 1 exposure: 7 suppliers concentrated in Taichung — single-region geographic risk.',
+    recommendations: [
+      { text: 'Open Supplier Map to see geographic concentration risk.', target: 'supmap', label: 'Open Supplier Map →' },
+      { text: 'Drill into AeroCarbon scorecard — current OTIF 61%, recovery plan due.', target: 'performance', label: 'Open Performance →' },
+      { text: 'Audit which parts have only 1 qualified supplier (SPOF risk).', target: 'parts', label: 'Open Parts Tracker →' },
+    ],
+    related: [
+      { label: 'Supplier Performance', target: 'performance' },
+      { label: 'Supplier Map', target: 'supmap' },
+      { label: 'Location View', target: 'location' },
+    ],
+  },
+  supmap: {
+    label: 'SUPPLIER MAP · GEOGRAPHIC VIEW',
+    focus: '7 of 19 suppliers concentrated in Taichung region — 38% of supply value. Any port disruption (typhoon, congestion) would impact Dirt, Sports, and Hybrid lines simultaneously.',
+    recommendations: [
+      { text: 'Run simulation: Taichung port shutdown — projected $1.2M exposure.', target: 'simulation', label: 'Open Simulation →' },
+      { text: 'Review TMS feed for active Taichung shipments in transit.', target: 'tms', label: 'Open TMS / WMS →' },
+      { text: 'Open Location View for parts currently moving through that lane.', target: 'location', label: 'Open Location View →' },
+    ],
+    related: [
+      { label: 'Supplier Registry', target: 'suppliers' },
+      { label: 'Location View', target: 'location' },
+      { label: 'TMS / WMS', target: 'tms' },
+    ],
+  },
+  location: {
+    label: 'LOCATION VIEW · IN-TRANSIT PARTS',
+    focus: 'Active shipments tracked across 3 lanes: Taichung → LA (at-risk), Shenzhen → Long Beach (green), Pittsburgh → Reading (green). 4 parts have stale ETA data — pulling fresh TMS signal.',
+    recommendations: [
+      { text: 'Open TMS feed to inspect latest carrier events for at-risk lane.', target: 'tms', label: 'Open TMS / WMS →' },
+      { text: 'Review which POs are tied to the Taichung-LA lane.', target: 'orders', label: 'Open PO Manager →' },
+      { text: 'Run What-If: simulate 5-day delay on this lane.', target: 'whatif', label: 'Open What-If →' },
+    ],
+    related: [
+      { label: 'PO Manager', target: 'orders' },
+      { label: 'Supplier Map', target: 'supmap' },
+      { label: 'TMS / WMS', target: 'tms' },
+    ],
+  },
+  demand: {
+    label: 'DEMAND PLANNING',
+    focus: 'Dirt April demand: 168 units. Capacity available after current build commitments: 126. Gap of 42 units driven by the TrailFlex rear shock shortfall. Sports May has flex capacity that could absorb shift.',
+    recommendations: [
+      { text: 'Open What-If: shift 42 Dirt units from April to May.', target: 'whatif', label: 'Open What-If →' },
+      { text: 'Review MRP net requirements after demand adjustment.', target: 'mrp', label: 'Open MRP →' },
+      { text: 'Audit BOM dependencies — which parts free up if we delay Dirt?', target: 'bom', label: 'Open BOM Explorer →' },
+    ],
+    related: [
+      { label: 'Material Req. (MRP)', target: 'mrp' },
+      { label: 'BOM Explorer', target: 'bom' },
+      { label: 'What-If: PO Delay', target: 'whatif' },
+    ],
+  },
+  simulation: {
+    label: 'SIMULATION ENGINE',
+    focus: 'Available scenarios: Taichung Port Shutdown, Carbon Fiber Spot Spike, TrailFlex Labor Unrest, Weather Disruption — Pacific. Run any scenario to project 7-day forward operational impact across BOM and demand.',
+    recommendations: [
+      { text: 'Run Taichung Port Shutdown — projected $1.2M revenue exposure.', target: 'simulation', label: 'Run scenario →' },
+      { text: 'Compare current simulation results against last week.', target: 'simulation', label: 'View history →' },
+      { text: 'Open What-If for line-level PO delay modelling.', target: 'whatif', label: 'Open What-If →' },
+    ],
+    related: [
+      { label: 'What-If: PO Delay', target: 'whatif' },
+      { label: 'Demand Planning', target: 'demand' },
+      { label: 'Supplier Map', target: 'supmap' },
+    ],
+  },
+  ingest: {
+    label: 'DATA INGEST · ERP SYNC',
+    focus: 'Last ERP sync: 06:14 today. 263 BOM lines + 13 active PO lines refreshed. 2 spreadsheet uploads pending review. No ingest errors in last 24h.',
+    recommendations: [
+      { text: 'Approve the 2 pending spreadsheet uploads from procurement team.', target: 'ingest', label: 'Review uploads →' },
+      { text: 'Verify TMS/WMS integrations — 3 live carriers connected.', target: 'tms', label: 'Open TMS / WMS →' },
+      { text: 'Audit business rule overrides for last 7 days.', target: 'rules', label: 'Open Business Rules →' },
+    ],
+    related: [
+      { label: 'TMS / WMS', target: 'tms' },
+      { label: 'Business Rules', target: 'rules' },
+    ],
+  },
+  tms: {
+    label: 'TMS / WMS INTEGRATIONS',
+    focus: 'Live integrations: FedEx TMS, Maersk Ocean, DHL Express. Last event: 09:44 — CD-COM-11020 production start alert from TrailFlex EDI. 1 stale connection — re-authenticating.',
+    recommendations: [
+      { text: 'Open Location View to see latest shipment positions.', target: 'location', label: 'Open Location View →' },
+      { text: 'Review TMS feed for the Taichung-LA at-risk lane.', target: 'tms', label: 'View feed →' },
+      { text: 'Audit business rules tied to TMS event triggers.', target: 'rules', label: 'Open Business Rules →' },
+    ],
+    related: [
+      { label: 'Location View', target: 'location' },
+      { label: 'Supplier Map', target: 'supmap' },
+      { label: 'Business Rules', target: 'rules' },
+    ],
+  },
+  rules: {
+    label: 'BUSINESS RULES · ESCALATION POLICIES',
+    focus: 'CRITICAL alerts auto-escalate at 4h SLA. HIGH alerts at 8h. 1 override active: ISS-1028 (CK-COM-17060 child safety) — priority elevated by Jonas Weber, expires Apr 15.',
+    recommendations: [
+      { text: 'Review CRITICAL SLA — could be tightened to 2h based on current data.', target: 'rules', label: 'Edit policy →' },
+      { text: 'Audit override audit log — 1 active, 3 expired this week.', target: 'rules', label: 'View log →' },
+      { text: 'Open AI Comms Agent to see escalation policy in action.', target: 'commsagent', label: 'Open Comms Agent →' },
+    ],
+    related: [
+      { label: 'Alert Queue', count: '9', target: 'alerts' },
+      { label: 'AI Comms Agent', count: '4', target: 'commsagent' },
+    ],
+  },
+};
+
+const SECTION_LABELS = {
+  dashboard: 'Product Review Board', simulation: 'Simulation', worklist: 'Issue Worklist',
+  alerts: 'Alert Queue', commsagent: 'AI Comms Agent', orders: 'PO Manager',
+  commits: 'Supplier Commits', parts: 'Parts Tracker', bom: 'BOM Explorer',
+  mrp: 'Material Req. (MRP)', whatif: 'What-If: PO Delay', leadtime: 'Lead Time Reality',
+  performance: 'Supplier Performance', suppliers: 'Supplier Registry', supmap: 'Supplier Map',
+  location: 'Location View', demand: 'Demand Planning', ingest: 'Data Ingest',
+  tms: 'TMS / WMS', rules: 'Business Rules',
+};
+
+function _currentSectionId(){
+  const active = document.querySelector('.sec.active');
+  if(!active) return 'dashboard';
+  return active.id.replace(/^sec-/, '');
+}
+
+function refreshAIAdvisor(){
+  const secId = _currentSectionId();
+  const ctx = AI_ADVISOR_CONTEXTS[secId] || AI_ADVISOR_CONTEXTS.dashboard;
+  const ctxEl = document.getElementById('aap-context');
+  const focusEl = document.getElementById('aap-focus');
+  const recsEl = document.getElementById('aap-recommendations');
+  const relEl = document.getElementById('aap-related');
+  const badge = document.getElementById('ai-trigger-badge');
+  if(ctxEl)  ctxEl.textContent  = ctx.label;
+  if(focusEl) focusEl.textContent = ctx.focus;
+  if(recsEl){
+    recsEl.innerHTML = ctx.recommendations.map((r,i)=>`
+      <div class="aap-rec" onclick="aapJump('${r.target}')">
+        <span class="aap-rec-num">${i+1}</span>
+        <div class="aap-rec-text">${r.text}<span class="aap-rec-target">${r.label}</span></div>
+      </div>`).join('');
+  }
+  if(relEl){
+    relEl.innerHTML = ctx.related.map(l=>`
+      <div class="aap-link" onclick="aapJump('${l.target}')">
+        <span>${l.label}${l.count?` <span style="color:var(--muted);font-family:var(--mono);font-size:10px;">(${l.count})</span>`:''}</span>
+        <span class="aap-link-arrow">→</span>
+      </div>`).join('');
+  }
+  if(badge) badge.textContent = String(ctx.recommendations.length);
+}
+
+function toggleAIAdvisor(){
+  const panel = document.getElementById('ai-advisor-panel');
+  if(!panel) return;
+  const opening = !panel.classList.contains('open');
+  panel.classList.toggle('open', opening);
+  document.body.classList.toggle('ai-advisor-on', opening);
+  panel.setAttribute('aria-hidden', opening ? 'false' : 'true');
+  if(opening) refreshAIAdvisor();
+}
+
+function closeAIAdvisor(){
+  const panel = document.getElementById('ai-advisor-panel');
+  if(panel){
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden','true');
+  }
+  document.body.classList.remove('ai-advisor-on');
+}
+
+function aapJump(targetSection){
+  // Deep-link from advisor recommendation to the relevant module
+  try { nav(targetSection); } catch(e){}
+  setTimeout(refreshAIAdvisor, 80);
+}
+
+function aapAsk(){
+  const inp = document.getElementById('aap-ask-input');
+  if(!inp || !inp.value.trim()) return;
+  showToast('Advisor is thinking… (feature preview)','s');
+  inp.value = '';
+}
+
+// Hook into the existing nav() so advisor stays context-aware
+(function(){
+  if(typeof nav !== 'function') return;
+  const _origNav = nav;
+  window.nav = function(id, el){
+    const r = _origNav.apply(this, arguments);
+    try { if(document.getElementById('ai-advisor-panel')?.classList.contains('open')) refreshAIAdvisor(); } catch(e){}
+    return r;
+  };
+})();
+
 function toggleSidebar(){
   const sb=document.getElementById('sidebar');
   const main=document.querySelector('.main');
@@ -11903,6 +12520,41 @@ function toggleSidebar(){
 init();
 </script>
 
+
+<!-- ══ AI SUPPLY ADVISOR — Contextual side panel ══ -->
+<div id="ai-advisor-panel" aria-hidden="true">
+  <div class="aap-header">
+    <div class="aap-title-wrap">
+      <span class="aap-pulse-dot"></span>
+      <div style="flex:1;min-width:0;">
+        <div class="aap-title">AI Supply Advisor</div>
+        <div class="aap-context" id="aap-context">PRODUCT REVIEW BOARD · LIVE</div>
+      </div>
+    </div>
+    <button class="aap-close" onclick="closeAIAdvisor()" title="Close advisor">✕</button>
+  </div>
+  <div class="aap-body">
+    <div class="aap-section">
+      <div class="aap-label">Current Focus</div>
+      <div class="aap-focus" id="aap-focus">Loading context…</div>
+    </div>
+    <div class="aap-section">
+      <div class="aap-label">Recommended Actions</div>
+      <div id="aap-recommendations"></div>
+    </div>
+    <div class="aap-section">
+      <div class="aap-label">Related Workflows</div>
+      <div id="aap-related" class="aap-related"></div>
+    </div>
+    <div class="aap-section aap-ask">
+      <div class="aap-label">Ask The Advisor</div>
+      <div class="aap-ask-row">
+        <input class="aap-ask-input" placeholder="What's the impact if TrailFlex slips another week?" id="aap-ask-input"/>
+        <button class="aap-ask-btn" onclick="aapAsk()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══ PERSONA INTRO OVERLAY ══ -->
 <div id="demo-persona-intro" aria-hidden="true">
