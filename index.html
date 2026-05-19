@@ -5769,7 +5769,7 @@ function renderWorklist(data){
           const col  = isNone?'var(--red)':isLate?'var(--amber)':'var(--green)';
           const msBg = isNone?'rgba(220,38,38,.1)':isLate?'rgba(217,119,6,.1)':'rgba(21,128,61,.1)';
           const msColMap = {POA:'var(--blue)',PS:'var(--amber)',PF:'#8b5cf6',SH:'var(--green)'};
-          return '<div style="display:flex;flex-direction:column;gap:3px;">'
+          return '<div class="wl-checkpoint" style="display:flex;flex-direction:column;gap:3px;">'
             +'<span style="font-family:var(--mono);font-size:9px;font-weight:800;background:'+msBg+';color:'+col+';padding:2px 7px;border-radius:4px;display:inline-block;letter-spacing:.5px;">'
             +ms+' '+'●'+'</span>'
             +'<span style="font-size:10px;color:var(--muted);line-height:1.3;">'+lbl+'</span>'
@@ -5782,7 +5782,7 @@ function renderWorklist(data){
         const m = String(act).match(/^([A-Z][A-Z\s]+?)\s—\s(.+)$/);
         const verb = m ? m[1] : act;
         const rest = m ? m[2] : '';
-        return `<div style="font-size:11px;line-height:1.4;">
+        return `<div class="wl-buyer-action" style="font-size:11px;line-height:1.4;">
           <div style="font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:.5px;color:${tone.col};background:${tone.bg};display:inline-block;padding:2px 7px;border-radius:4px;margin-bottom:2px;">${verb}</div>
           ${rest?`<div style="font-size:11px;color:var(--muted);line-height:1.35;">${rest}</div>`:''}
         </div>`;
@@ -10671,8 +10671,10 @@ const DEMO_SCRIPT = [
     subPoints:[
       // Focus stays on ISS-1041 for the full ~18 s discussion, then moves to ISS-1038
       // only after Sarah cleanly transitions with "For ISS-1038".
-      {at:5500,  pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(12)'},
-      {at:24000, pointer:'#wl-tbody tr[data-id="ISS-1038"] td:nth-child(12)'},
+      // Target the inner .wl-checkpoint div so the spotlight is tight on the badge+text,
+      // not the surrounding empty td padding.
+      {at:5500,  pointer:'#wl-tbody tr[data-id="ISS-1041"] .wl-checkpoint'},
+      {at:24000, pointer:'#wl-tbody tr[data-id="ISS-1038"] .wl-checkpoint'},
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[],
@@ -10684,15 +10686,16 @@ const DEMO_SCRIPT = [
     section:'worklist', label:'7:51 AM · BUYER ACTION', title:'Sarah reads her AI-generated buyer actions',
     text:'Every issue has a Buyer Action — a specific instruction telling Sarah exactly what to do.',
     narration:"Every line in my worklist also has a Buyer Action. A specific instruction telling me exactly what to do. For part number CD-COM-11020, the TrailFlex rear shock — it says Escalate Now. No Purchase Order Acknowledgement after twenty-two days. Call supplier today. For part number CS-RAW-11011, the AeroCarbon frameset — Chase Production Finish. Production Finish date is missing. Request confirmation by end of day. These aren't generic alerts. These are specific, context-aware instructions. And here's what's really changed my life — in autonomous mode, the escalation agent has already sent the email to TrailFlex before I even got to the office. So by the time I'm reading this, the supplier has already been contacted. I'm following up on work that's already been done.",
-    duration:58000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)',
+    duration:58000, pointer:'#wl-tbody tr[data-id="ISS-1041"] .wl-buyer-action',
     // Hold on each Buyer Action cell for the full duration Sarah is discussing it.
+    // Target the inner .wl-buyer-action div for tight focus on the verb badge + description.
     subPoints:[
       // ~19s: narrator transitions to "For part number CS-RAW-11011, the AeroCarbon frameset"
       //        → spotlight moves to ISS-1038's Buyer Action cell
-      {at:19000, pointer:'#wl-tbody tr[data-id="ISS-1038"] td:nth-child(13)'},
+      {at:19000, pointer:'#wl-tbody tr[data-id="ISS-1038"] .wl-buyer-action'},
       // ~38s: narrator returns to TrailFlex with "the escalation agent has already sent
       //        the email to TrailFlex" → spotlight back to ISS-1041
-      {at:38000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)'},
+      {at:38000, pointer:'#wl-tbody tr[data-id="ISS-1041"] .wl-buyer-action'},
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[
