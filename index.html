@@ -2666,7 +2666,7 @@ html.dark .ai-rec-card{background:var(--card);}
   <!-- 6 Agent Cards — all showing autonomous capability -->
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
 
-    <div class="panel" style="padding:14px 16px;border-top:2px solid var(--amber);">
+    <div class="panel" id="agent-comms-ingest" style="padding:14px 16px;border-top:2px solid var(--amber);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:18px;">📬</span>
         <div><div style="font-weight:700;font-size:12px;">Comms Ingestion</div>
@@ -2675,7 +2675,7 @@ html.dark .ai-rec-card{background:var(--card);}
       <div style="font-size:11px;color:var(--muted);line-height:1.5;">Reads incoming email, SMS, and call transcripts. Extracts commit dates, delay signals, and shipment confirmations. Updates ISSUES and milestones automatically every sweep.</div>
     </div>
 
-    <div class="panel" style="padding:14px 16px;border-top:2px solid var(--amber);">
+    <div class="panel" id="agent-reply" style="padding:14px 16px;border-top:2px solid var(--amber);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:18px;">📤</span>
         <div><div style="font-weight:700;font-size:12px;">Reply Agent</div>
@@ -2684,7 +2684,7 @@ html.dark .ai-rec-card{background:var(--card);}
       <div style="font-size:11px;color:var(--muted);line-height:1.5;">After parsing each message, drafts a context-appropriate reply and sends it without buyer input. Delay notices, shipment acknowledgements, and commit-chase emails — all automated.</div>
     </div>
 
-    <div class="panel" style="padding:14px 16px;border-top:2px solid var(--amber);">
+    <div class="panel" id="agent-escalation" style="padding:14px 16px;border-top:2px solid var(--amber);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:18px;">🚨</span>
         <div><div style="font-weight:700;font-size:12px;">Escalation Agent</div>
@@ -2693,7 +2693,7 @@ html.dark .ai-rec-card{background:var(--card);}
       <div style="font-size:11px;color:var(--muted);line-height:1.5;">Detects CRITICAL and HIGH issues with overdue milestones. Drafts and sends formal escalation emails to the named supplier contact — no buyer approval needed.</div>
     </div>
 
-    <div class="panel" style="padding:14px 16px;border-top:2px solid var(--amber);">
+    <div class="panel" id="agent-risk-model" style="padding:14px 16px;border-top:2px solid var(--amber);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:18px;">📊</span>
         <div><div style="font-weight:700;font-size:12px;">Risk Model Agent</div>
@@ -2702,7 +2702,7 @@ html.dark .ai-rec-card{background:var(--card);}
       <div style="font-size:11px;color:var(--muted);line-height:1.5;">Re-runs the 5-dimension milestone model on every PO line after each comms update. Detects risk class changes and re-renders the Commit Tracker and Worklist automatically.</div>
     </div>
 
-    <div class="panel" style="padding:14px 16px;border-top:2px solid var(--amber);">
+    <div class="panel" id="agent-tms-sync" style="padding:14px 16px;border-top:2px solid var(--amber);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:18px;">🚢</span>
         <div><div style="font-weight:700;font-size:12px;">TMS Sync Agent</div>
@@ -2965,7 +2965,7 @@ html.dark .ai-rec-card{background:var(--card);}
       <div style="margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted);padding:0 4px;" id="wl-count-label">12 issues</div>
     </div>
     <div style="overflow-x:auto;"><table class="tbl" id="worklist-tbl">
-      <thead><tr><th>#</th><th>Issue ID</th><th>Part</th><th>Product</th><th>Supplier</th><th>Need Date</th><th style="white-space:nowrap;" title="Projected days late at expected delivery vs. assembly need date">Proj. Late</th><th>Qty Short</th><th>Score</th><th>Priority</th><th>Status</th><th title="Which milestone checkpoint is driving this issue">Checkpoint</th><th>Data</th><th>Owner</th><th></th></tr></thead>
+      <thead><tr><th>#</th><th>Issue ID</th><th>Part</th><th>Product</th><th>Supplier</th><th>Need Date</th><th style="white-space:nowrap;" title="Projected days late at expected delivery vs. assembly need date">Proj. Late</th><th>Qty Short</th><th>Score</th><th>Priority</th><th>Status</th><th title="Which milestone checkpoint is driving this issue">Checkpoint</th><th style="min-width:180px;" title="AI-recommended next action — synced from Supplier Commits">Buyer Action</th><th>Data</th><th>Owner</th><th></th></tr></thead>
       <tbody id="wl-tbody"></tbody>
     </table></div>
   </div>
@@ -4628,13 +4628,16 @@ const TMS_FEED=[
 // ══════════════════════════════════════════════════════
 // ALERT LOG — Outbound supplier alerts sent by SWAT
 // ══════════════════════════════════════════════════════
+// Sorted by escalation time (chronological) — matches Sarah's demo narration:
+//   "TrailFlex escalation went out at six forty-two AM"
+//   "AeroCarbon got a high-risk notice at seven fifteen"
 const alertLog=[
-  {type:'email',time:'09:42',sid:'SUSP-19',contact:'Jordan Blackwood (Primary)',   msg:'CD-COM-11020 Production Start overdue — immediate action required',status:'Delivered'},
-  {type:'sms',  time:'09:42',sid:'SUSP-19',contact:'Jordan Blackwood (Primary)',   msg:'SWAT ALERT: CD-COM-11020 PS overdue 2d. Reply to confirm.',        status:'Delivered'},
-  {type:'sms',  time:'09:43',sid:'SUSP-19',contact:'Elena Vargas (Secondary)',     msg:'SWAT ALERT: CD-ASM-12000 PS overdue. Reply to confirm.',           status:'Delivered'},
-  {type:'voice',time:'09:45',sid:'CARB-17',contact:'Ming-Hao Wu (Primary)',        msg:'Automated voice call: POA status requested for PO-2026-08744.',   status:'Answered'},
-  {type:'email',time:'08:50',sid:'CARB-17',contact:'Ming-Hao Wu (Primary)',        msg:'Carbon frameset POA missing after 4 days — please acknowledge.',  status:'Delivered'},
-  {type:'sms',  time:'08:51',sid:'CARB-17',contact:'Rebecca Sinclair (Secondary)', msg:'SWAT ALERT: CS-RAW-11011 POA outstanding on PO-2026-08744.',     status:'Delivered'},
+  {type:'email',time:'06:42',sid:'SUSP-19',contact:'Jordan Blackwood (Primary)',   msg:'CRITICAL escalation: CD-COM-11020 Production Start overdue — immediate action required',status:'Delivered'},
+  {type:'sms',  time:'06:42',sid:'SUSP-19',contact:'Jordan Blackwood (Primary)',   msg:'SWAT ALERT: CD-COM-11020 PS overdue 2d. Reply to confirm.',        status:'Delivered'},
+  {type:'sms',  time:'06:43',sid:'SUSP-19',contact:'Elena Vargas (Secondary)',     msg:'SWAT ALERT: CD-ASM-12000 PS overdue. Reply to confirm.',           status:'Delivered'},
+  {type:'email',time:'07:15',sid:'CARB-17',contact:'Ming-Hao Wu (Primary)',        msg:'HIGH-risk notice: Carbon frameset POA missing after 4 days — please acknowledge.',  status:'Delivered'},
+  {type:'sms',  time:'07:16',sid:'CARB-17',contact:'Rebecca Sinclair (Secondary)', msg:'SWAT ALERT: CS-RAW-11011 POA outstanding on PO-2026-08744.',     status:'Delivered'},
+  {type:'voice',time:'07:18',sid:'CARB-17',contact:'Ming-Hao Wu (Primary)',        msg:'Automated voice call: POA status requested for PO-2026-08744.',   status:'Answered'},
   {type:'email',time:'08:00',sid:'DRIV-10',contact:'Michelle Park (NA Rep)',        msg:'Drivetrain shipment date at risk — customs pre-clearance due.',   status:'Read'},
 ];
 
@@ -5708,6 +5711,39 @@ function toggleOwnerPop(id){
     },10);
   }
 }
+// Helper — pull the AI-generated Buyer Action from Supplier Commits for this issue.
+// Looks up COMMIT_DATA by part; falls back to a tier-based inference if no commit row exists.
+function _inferBuyerActionFromIssue(iss){
+  if(!iss) return 'Review milestone status.';
+  const noCommit = iss.commit && (iss.commit.includes('No') || iss.commit.includes('missing'));
+  if(iss.tier === 'CRITICAL' && noCommit) return 'ESCALATE NOW — auto-email sent. Call supplier today.';
+  if(iss.tier === 'CRITICAL')              return 'ESCALATE — multiple risk factors. Management review.';
+  if(iss.tier === 'HIGH' && noCommit)      return 'CONTACT — request commit confirmation by EOD.';
+  if(iss.tier === 'HIGH')                  return 'FOLLOW UP — request production status update.';
+  if(iss.tier === 'MEDIUM')                return 'CHECK IN — chase supplier this week.';
+  return 'MONITOR — on track.';
+}
+function getBuyerActionForIssue(iss){
+  if(typeof COMMIT_DATA === 'undefined' || typeof calcOnTimeProb !== 'function'){
+    return _inferBuyerActionFromIssue(iss);
+  }
+  const cd = (COMMIT_DATA || []).find(c => c && c.part === iss.part);
+  if(!cd) return _inferBuyerActionFromIssue(iss);
+  if(!cd._buyerAction){
+    try { calcOnTimeProb(cd); } catch(e){}
+  }
+  return cd._buyerAction || _inferBuyerActionFromIssue(iss);
+}
+function getBuyerActionTone(actionText){
+  const t = String(actionText||'').toUpperCase();
+  if(t.startsWith('ESCALATE'))          return { col:'var(--red)',   bg:'rgba(220,38,38,.10)' };
+  if(t.startsWith('CONTACT'))           return { col:'var(--amber)', bg:'rgba(217,119,6,.10)' };
+  if(t.startsWith('CHASE') || t.startsWith('FOLLOW UP')) return { col:'var(--amber)', bg:'rgba(217,119,6,.08)' };
+  if(t.startsWith('CHECK IN'))          return { col:'var(--blue)',  bg:'rgba(59,130,246,.08)' };
+  if(t.startsWith('MONITOR') || t.startsWith('NO ACTION')) return { col:'var(--green-dim, #15803d)', bg:'rgba(21,128,61,.06)' };
+  return { col:'var(--ink)', bg:'rgba(0,0,0,.03)' };
+}
+
 function renderWorklist(data){
   data=data||ISSUES;
   let openId=null;
@@ -5740,6 +5776,17 @@ function renderWorklist(data){
             +'</div>';
         })()}
       </td>
+      <td style="min-width:180px;max-width:220px;">${(()=>{
+        const act = getBuyerActionForIssue(iss);
+        const tone = getBuyerActionTone(act);
+        const m = String(act).match(/^([A-Z][A-Z\s]+?)\s—\s(.+)$/);
+        const verb = m ? m[1] : act;
+        const rest = m ? m[2] : '';
+        return `<div style="font-size:11px;line-height:1.4;">
+          <div style="font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:.5px;color:${tone.col};background:${tone.bg};display:inline-block;padding:2px 7px;border-radius:4px;margin-bottom:2px;">${verb}</div>
+          ${rest?`<div style="font-size:11px;color:var(--muted);line-height:1.35;">${rest}</div>`:''}
+        </div>`;
+      })()}</td>
       <td>${ci(iss.dc, iss.id)}</td>
       <td>${renderOwnerCell(iss)}</td>
       <td><div style="display:flex;gap:4px;">
@@ -5748,7 +5795,7 @@ function renderWorklist(data){
       </div></td>
     </tr>
     <tr id="ird-${iss.id}" style="display:none;background:var(--surface);height:0;overflow:hidden;">
-      <td colspan="13"><div class="ird-inner">
+      <td colspan="14"><div class="ird-inner">
         <div class="ird-grid">
           <div class="ird-block"><div class="ird-lbl">PO Number</div><div class="ird-val">${iss.po}</div></div>
           <div class="ird-block"><div class="ird-lbl">Supplier Commit</div><div class="ird-val" style="color:${iss.commit.includes('late')||iss.commit.includes('No')?'var(--red)':'var(--ink)'}">${iss.commit}</div></div>
@@ -10599,8 +10646,8 @@ const DEMO_SCRIPT = [
   {
     section:'worklist', label:'7:47 AM · TRIAGE', title:'Sarah works her Issue Worklist',
     text:'Twelve open supply risks, ranked by priority score — work from the top.',
-    narration:"Here's my worklist. Twelve open issues, ranked by priority score. The top one — ISS-1041 — is impacting part number CD-COM-11020, the rear shock from TrailFlex. Look at the Projected Late column. Twenty-two days. That's not how late it is now — that's how late it will be when it arrives. SWAT is predicting the future. Twenty-two days late? I'm picking up the phone.",
-    duration:32000, pointer:null,
+    narration:"Here's my worklist. Twelve open issues, ranked by priority score. The top one — ISS-1041 — is impacting part number CD-COM-11020, the rear shock from TrailFlex. Look at the Projected Late column. Twenty-two days. That's not how late it is now — that's how late it will be when it arrives. SWAT is predicting the future. And look at this Buyer Action column. SWAT tells me exactly what to do. Escalate Now. Auto-email already sent to the supplier. I'm not guessing what the next step is — SWAT has decided for me.",
+    duration:40000, pointer:null,
     // Synchronised pointing: each pointer fires at the exact moment its subject is named.
     subPoints:[
       // ~2.5s: narrator says "Twelve open issues" → cursor lands on the "12 issues" count label
@@ -10610,6 +10657,8 @@ const DEMO_SCRIPT = [
       {at:6500,  pointer:'#wl-tbody tr[data-id="ISS-1041"]', cursorOnly:true},
       // ~17s: narrator says "Twenty-two days" → FULL SPOTLIGHT lands on the +22d cell
       {at:17000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(7)'},
+      // ~26s: narrator says "look at this Buyer Action column" → spotlight on the Buyer Action cell (col 13)
+      {at:26000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)'},
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[
@@ -10692,8 +10741,19 @@ const DEMO_SCRIPT = [
   {
     section:'commsagent', label:'7:56 AM · AGENTS', title:'Sarah checks what the agents did overnight',
     text:'Six autonomous agents ran while Sarah slept — parsing emails, sending escalations, updating scores.',
-    narration:"This is the part that honestly blew my mind when I first started using SWAT. Six autonomous agents have been running all night. The Comms Agent read every supplier email that came in overnight. The Escalation Agent sent formal notices to TrailFlex and AeroCarbon. The Risk Model Agent re-scored all thirteen Purchase Order lines. I didn't do any of this. I clicked Start Agents yesterday afternoon and went home. This morning, I'm reviewing what the system already did. My job has shifted from doing the work to reviewing the work. That's a massive change.",
-    duration:22000, pointer:'#ca-master-btn',
+    narration:"This is the part that honestly blew my mind when I first started using SWAT. Six autonomous agents have been running all night. The Comms Ingestion Agent read every supplier email, S.M.S., and call transcript that came in overnight. The Escalation Agent sent formal notices to TrailFlex and AeroCarbon. The Risk Model Agent re-scored all thirteen Purchase Order lines. I didn't do any of this. I clicked Start Agents yesterday afternoon and went home. This morning, I'm reviewing what the system already did. My job has shifted from doing the work to reviewing the work. That's a massive change.",
+    duration:42000, pointer:null,
+    // Highlight each agent as Sarah names it, BEFORE landing on the Start Agents button.
+    subPoints:[
+      // ~7s: "The Comms Ingestion Agent read every supplier email…"
+      {at:7000,  pointer:'#agent-comms-ingest'},
+      // ~14s: "The Escalation Agent sent formal notices to TrailFlex and AeroCarbon."
+      {at:14000, pointer:'#agent-escalation'},
+      // ~21s: "The Risk Model Agent re-scored all thirteen Purchase Order lines."
+      {at:21000, pointer:'#agent-risk-model'},
+      // ~29s: "I clicked Start Agents yesterday afternoon and went home." → highlight the Run Agents button
+      {at:29000, pointer:'#ca-master-btn'},
+    ],
     fn:()=>{try{initCommsAgent();renderCaInbox();}catch(e){}},
     ticker:[
       {type:'success',ico:'🤖',txt:'<strong>6 agents ONLINE</strong> — all channels connected',delay:1000},
@@ -10738,7 +10798,12 @@ const DEMO_SCRIPT = [
     section:'performance', label:'8:02 AM · SUPPLIER INTEL', title:'Sarah reviews supplier performance data',
     text:'OTIF, avg delay, lead time variance — the evidence behind every risk score.',
     narration:"Last thing before my morning standup — I check supplier performance on the Performance Dashboard. TrailFlex is at seventy-one percent OTIF. AeroCarbon is even lower at sixty-one percent. These numbers feed directly into the risk model. When TrailFlex misses a Purchase Order Acknowledgement, SWAT weights it heavier because their historical performance is poor. A ninety-five percent OTIF supplier missing a Purchase Order Acknowledgement gets a lower risk score because they almost always deliver. The model learns from history. I use this data in my supplier business reviews too. It's not anecdotal anymore. I can show them their trend line and have a data-backed conversation about what needs to change.",
-    duration:18000, pointer:'#ss-tbody tr:first-child td:nth-child(5)',
+    duration:30000, pointer:'#ss-tbody tr:first-child td:nth-child(5)',
+    subPoints:[
+      // ~12s: narrator says "AeroCarbon is even lower at sixty-one percent" → move spotlight to row 2 (CARB-17) OTIF cell
+      {at:12000, pointer:'#ss-tbody tr:nth-child(2) td:nth-child(5)'},
+      // ~16s: narrator pivots to "These numbers feed directly into the risk model" — hold on AeroCarbon
+    ],
     fn:()=>{try{renderSS();}catch(e){}},
     ticker:[],
   },
