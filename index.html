@@ -10646,8 +10646,8 @@ const DEMO_SCRIPT = [
   {
     section:'worklist', label:'7:47 AM · TRIAGE', title:'Sarah works her Issue Worklist',
     text:'Twelve open supply risks, ranked by priority score — work from the top.',
-    narration:"Here's my worklist. Twelve open issues, ranked by priority score. The top one — ISS-1041 — is impacting part number CD-COM-11020, the rear shock from TrailFlex. Look at the Projected Late column. Twenty-two days. That's not how late it is now — that's how late it will be when it arrives. SWAT is predicting the future. And look at this Buyer Action column. SWAT tells me exactly what to do. Escalate Now. Auto-email already sent to the supplier. I'm not guessing what the next step is — SWAT has decided for me.",
-    duration:40000, pointer:null,
+    narration:"Here's my worklist. Twelve open issues, ranked by priority score. The top one — ISS-1041 — is impacting part number CD-COM-11020, the rear shock from TrailFlex. Look at the Projected Late column. Twenty-two days. That's not how late it is now — that's how late it will be when it arrives. SWAT is predicting the future. Twenty-two days late? I'm picking up the phone.",
+    duration:32000, pointer:null,
     // Synchronised pointing: each pointer fires at the exact moment its subject is named.
     subPoints:[
       // ~2.5s: narrator says "Twelve open issues" → cursor lands on the "12 issues" count label
@@ -10657,8 +10657,6 @@ const DEMO_SCRIPT = [
       {at:6500,  pointer:'#wl-tbody tr[data-id="ISS-1041"]', cursorOnly:true},
       // ~17s: narrator says "Twenty-two days" → FULL SPOTLIGHT lands on the +22d cell
       {at:17000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(7)'},
-      // ~26s: narrator says "look at this Buyer Action column" → spotlight on the Buyer Action cell (col 13)
-      {at:26000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)'},
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[
@@ -10678,6 +10676,29 @@ const DEMO_SCRIPT = [
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[],
+  },
+  {
+    // ── NEW STEP — walks through the Buyer Action column in the Worklist, using the
+    // exact same verbiage as the Supplier Commits BUYER ACTIONS step (so the audience
+    // hears the same operational guidance Sarah will read again on the commits page).
+    section:'worklist', label:'7:51 AM · BUYER ACTION', title:'Sarah reads her AI-generated buyer actions',
+    text:'Every issue has a Buyer Action — a specific instruction telling Sarah exactly what to do.',
+    narration:"Every line in my worklist also has a Buyer Action. A specific instruction telling me exactly what to do. For part number CD-COM-11020, the TrailFlex rear shock — it says Escalate Now. No Purchase Order Acknowledgement after twenty-two days. Call supplier today. For part number CS-RAW-11011, the AeroCarbon frameset — Chase Production Finish. Production Finish date is missing. Request confirmation by end of day. These aren't generic alerts. These are specific, context-aware instructions. And here's what's really changed my life — in autonomous mode, the escalation agent has already sent the email to TrailFlex before I even got to the office. So by the time I'm reading this, the supplier has already been contacted. I'm following up on work that's already been done.",
+    duration:58000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)',
+    // Hold on each Buyer Action cell for the full duration Sarah is discussing it.
+    subPoints:[
+      // ~19s: narrator transitions to "For part number CS-RAW-11011, the AeroCarbon frameset"
+      //        → spotlight moves to ISS-1038's Buyer Action cell
+      {at:19000, pointer:'#wl-tbody tr[data-id="ISS-1038"] td:nth-child(13)'},
+      // ~38s: narrator returns to TrailFlex with "the escalation agent has already sent
+      //        the email to TrailFlex" → spotlight back to ISS-1041
+      {at:38000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)'},
+    ],
+    fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
+    ticker:[
+      {type:'error',  ico:'🚨', txt:'<strong>Escalation auto-sent</strong> → TrailFlex re ISS-1041', delay:2000},
+      {type:'success',ico:'📤', txt:'<strong>Reply auto-sent</strong> → AeroCarbon re ISS-1038',     delay:4000},
+    ],
   },
   {
     section:'commits', label:'7:52 AM · COMMITS', title:'Sarah reviews the Supplier Commit Tracker',
