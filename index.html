@@ -5769,7 +5769,7 @@ function renderWorklist(data){
           const col  = isNone?'var(--red)':isLate?'var(--amber)':'var(--green)';
           const msBg = isNone?'rgba(220,38,38,.1)':isLate?'rgba(217,119,6,.1)':'rgba(21,128,61,.1)';
           const msColMap = {POA:'var(--blue)',PS:'var(--amber)',PF:'#8b5cf6',SH:'var(--green)'};
-          return '<div class="wl-checkpoint" style="display:flex;flex-direction:column;gap:3px;">'
+          return '<div style="display:flex;flex-direction:column;gap:3px;">'
             +'<span style="font-family:var(--mono);font-size:9px;font-weight:800;background:'+msBg+';color:'+col+';padding:2px 7px;border-radius:4px;display:inline-block;letter-spacing:.5px;">'
             +ms+' '+'●'+'</span>'
             +'<span style="font-size:10px;color:var(--muted);line-height:1.3;">'+lbl+'</span>'
@@ -5782,7 +5782,7 @@ function renderWorklist(data){
         const m = String(act).match(/^([A-Z][A-Z\s]+?)\s—\s(.+)$/);
         const verb = m ? m[1] : act;
         const rest = m ? m[2] : '';
-        return `<div class="wl-buyer-action" style="font-size:11px;line-height:1.4;">
+        return `<div style="font-size:11px;line-height:1.4;">
           <div style="font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:.5px;color:${tone.col};background:${tone.bg};display:inline-block;padding:2px 7px;border-radius:4px;margin-bottom:2px;">${verb}</div>
           ${rest?`<div style="font-size:11px;color:var(--muted);line-height:1.35;">${rest}</div>`:''}
         </div>`;
@@ -10671,10 +10671,8 @@ const DEMO_SCRIPT = [
     subPoints:[
       // Focus stays on ISS-1041 for the full ~18 s discussion, then moves to ISS-1038
       // only after Sarah cleanly transitions with "For ISS-1038".
-      // Target the inner .wl-checkpoint div so the spotlight is tight on the badge+text,
-      // not the surrounding empty td padding.
-      {at:5500,  pointer:'#wl-tbody tr[data-id="ISS-1041"] .wl-checkpoint'},
-      {at:24000, pointer:'#wl-tbody tr[data-id="ISS-1038"] .wl-checkpoint'},
+      {at:5500,  pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(12)'},
+      {at:24000, pointer:'#wl-tbody tr[data-id="ISS-1038"] td:nth-child(12)'},
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[],
@@ -10686,16 +10684,15 @@ const DEMO_SCRIPT = [
     section:'worklist', label:'7:51 AM · BUYER ACTION', title:'Sarah reads her AI-generated buyer actions',
     text:'Every issue has a Buyer Action — a specific instruction telling Sarah exactly what to do.',
     narration:"Every line in my worklist also has a Buyer Action. A specific instruction telling me exactly what to do. For part number CD-COM-11020, the TrailFlex rear shock — it says Escalate Now. No Purchase Order Acknowledgement after twenty-two days. Call supplier today. For part number CS-RAW-11011, the AeroCarbon frameset — Chase Production Finish. Production Finish date is missing. Request confirmation by end of day. These aren't generic alerts. These are specific, context-aware instructions. And here's what's really changed my life — in autonomous mode, the escalation agent has already sent the email to TrailFlex before I even got to the office. So by the time I'm reading this, the supplier has already been contacted. I'm following up on work that's already been done.",
-    duration:58000, pointer:'#wl-tbody tr[data-id="ISS-1041"] .wl-buyer-action',
+    duration:58000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)',
     // Hold on each Buyer Action cell for the full duration Sarah is discussing it.
-    // Target the inner .wl-buyer-action div for tight focus on the verb badge + description.
     subPoints:[
       // ~19s: narrator transitions to "For part number CS-RAW-11011, the AeroCarbon frameset"
       //        → spotlight moves to ISS-1038's Buyer Action cell
-      {at:19000, pointer:'#wl-tbody tr[data-id="ISS-1038"] .wl-buyer-action'},
+      {at:19000, pointer:'#wl-tbody tr[data-id="ISS-1038"] td:nth-child(13)'},
       // ~38s: narrator returns to TrailFlex with "the escalation agent has already sent
       //        the email to TrailFlex" → spotlight back to ISS-1041
-      {at:38000, pointer:'#wl-tbody tr[data-id="ISS-1041"] .wl-buyer-action'},
+      {at:38000, pointer:'#wl-tbody tr[data-id="ISS-1041"] td:nth-child(13)'},
     ],
     fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
     ticker:[
@@ -10849,7 +10846,7 @@ let _demoAuto      = false;
 let _demoAutoTimer = null;
 let _demoVoice     = null;   // selected SpeechSynthesisVoice
 let _demoSpeaking  = false;
-let _activePersona = null;   // 'buyer' | 'planner' | 'plant'
+let _activePersona = null;   // 'buyer' | 'planner' | 'plant' | 'expert'
 let _activeDemoScript = DEMO_SCRIPT; // default to buyer script
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -11055,6 +11052,168 @@ const DEMO_SCRIPT_PLANT = [
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PERSONA OUTCOMES DATA
+
+const DEMO_SCRIPT_EXPERT = [
+  {
+    personaIntro:true,
+    section:'dashboard',
+    label:'INTRODUCTION',
+    title:'Meet Alex Rivera — Product Expert',
+    text:'A complete platform walkthrough from someone who knows every corner of SWAT.',
+    narration:"Hi, I'm Alex Rivera, product expert at CoreHelix. I've spent years helping supply chain teams get the most out of SWAT. Today I'm going to take you on a full platform tour — not a day-in-the-life story, but a complete look at every major capability: what it does, why it exists, and what problem it solves. We'll cover the dashboard, the worklist, supplier commits, the agent layer, alerts, simulation, and the full analytics suite. Let's get started.",
+    duration:18000, pointer:null, fn:()=>{try{renderKanban();}catch(e){}}, ticker:[],
+  },
+  {
+    section:'dashboard', label:'DASHBOARD — COMMAND CENTRE', title:'The Product Review Board — everything in one screen',
+    text:'Live risk across all product lines, KPIs, and the daily workflow — before you open a single email.',
+    narration:"This is the dashboard — what we call the Product Review Board. It's the first screen every user sees when they open SWAT, and it's designed to answer the most important question of the day: where is supply at risk? The Production Risk Kanban maps your five product lines — Hybrid, Child, Sports, Dirt, Tricycle — against eight rolling months. Every cell is coloured by the worst-case risk of any open issue in that build. Red means critical, amber means watch, green means on track. Beneath that, six KPIs give you the headline numbers: critical issue count, at-risk parts, tracked PO value, supplier OTIF, and average delay. Everything here is live — no one had to update anything manually. And the daily workflow ribbon at the top sequences your morning into six steps so new users always know where to start.",
+    duration:30000, pointer:'#kanban-panel',
+    subPoints:[
+      {at:8000, pointer:'#sec-dashboard .kpi-row'},
+      {at:22000, pointer:'#workflow-ribbon'},
+    ],
+    fn:()=>{try{renderKanban();}catch(e){}},
+    ticker:[
+      {type:'success',ico:'📊',txt:'<strong>Risk model live</strong> — 5 product lines · 8 months scored',delay:2000},
+      {type:'success',ico:'🔄',txt:'<strong>KPIs updated</strong> — 4 critical · 9 at-risk · $6.2M tracked',delay:5000},
+    ],
+  },
+  {
+    section:'worklist', label:'WORKLIST — ISSUE TRIAGE', title:'Every open supply risk, ranked by severity score',
+    text:'Twelve issues ranked by the risk model — work from the top, never miss the urgent ones.',
+    narration:"The Issue Worklist is the operational heart of SWAT. Every open supply issue — a late PO, a missing milestone, a commitment gap — is surfaced here and ranked by a composite risk score. The score is calculated from projected lateness, supplier OTIF history, milestone gaps, and demand data. The top item is always the one that needs action today. Each row shows you the part number, supplier, current status, projected late days, the blocking milestone — what exactly is stuck — and a buyer action: a specific, context-aware instruction generated by the risk model telling you precisely what to do. You never have to figure out the next step. SWAT tells you. Click any cell and it filters the view. Click a KPI number on the dashboard and it drops you right here with the right filter applied.",
+    duration:28000, pointer:null,
+    subPoints:[
+      {at:5000, pointer:'#wl-tbody tr:first-child td:nth-child(7)'},
+      {at:14000, pointer:'#wl-tbody tr:first-child td:nth-child(12)'},
+      {at:22000, pointer:'#wl-tbody tr:first-child td:nth-child(13)'},
+    ],
+    fn:()=>{try{renderWorklist(ISSUES);}catch(e){}},
+    ticker:[
+      {type:'success',ico:'📋',txt:'<strong>12 issues scored</strong> — risk model ranking applied',delay:1500},
+    ],
+  },
+  {
+    section:'commits', label:'COMMIT TRACKER — MILESTONE VISIBILITY', title:'Four milestone dates per PO line — most inferred automatically',
+    text:'POA, Production Start, Production Finish, Shipment — the complete supplier timeline, built by SWAT.',
+    narration:"Most purchase orders from suppliers don't contain production or shipment dates — they just confirm the order. That leaves a gap of weeks where you have no visibility into what's actually happening at the factory. SWAT closes that gap with the Supplier Commit Tracker. For every open PO line, SWAT maintains four milestone dates: Purchase Order Acknowledgement, Production Start, Production Finish, and Shipment. When a milestone is missing, SWAT infers it from lead time history, supplier patterns, and communication signals. When a supplier sends an email or message confirming a date, the Comms Agent extracts it and updates the milestone automatically. The result is a complete timeline that nobody had to build manually. The on-time probability score on the right tells you the statistical likelihood of each line arriving on schedule based on all available signals.",
+    duration:30000, pointer:null,
+    subPoints:[
+      {at:6000, pointer:['#commit-milestone-tbody tr:first-child td:nth-child(6)','#commit-milestone-tbody tr:first-child td:nth-child(7)','#commit-milestone-tbody tr:first-child td:nth-child(8)','#commit-milestone-tbody tr:first-child td:nth-child(9)']},
+      {at:22000, pointer:'#commit-milestone-tbody tr:first-child td:nth-child(11)'},
+    ],
+    fn:()=>{try{COMMIT_DATA.forEach(r=>calcOnTimeProb(r));renderCommits();}catch(e){}},
+    ticker:[
+      {type:'warn',ico:'🔴',txt:'<strong>ISS-1041 — POA 22d overdue</strong> · Milestone inferred',delay:2500},
+      {type:'success',ico:'📅',txt:'<strong>On-time probability calculated</strong> — all PO lines scored',delay:5000},
+    ],
+  },
+  {
+    section:'commsagent', label:'COMMS AGENT — AUTONOMOUS PROCESSING', title:'Six agents running continuously across all channels',
+    text:'Email, SMS, call transcripts — parsed, extracted, and actioned without human intervention.',
+    narration:"The autonomous agent layer is what makes SWAT fundamentally different from a dashboard. There are six agents, and they run continuously. The Comms Ingestion Agent reads every supplier email, SMS message, and call transcript as it arrives — day or night. It detects delay signals, commitment dates, risk language, and quality issues. When it finds a date, it extracts it and updates the corresponding milestone. When it detects an escalation trigger, it alerts the Escalation Agent. The Escalation Agent then drafts and sends formal notices to the right supplier contacts using predefined templates, without waiting for a human to do it. The Risk Model Agent re-scores all open issues after every significant event. The result is that when a buyer arrives in the morning, the overnight work is already done. They're reviewing outcomes, not doing manual chasing. This shift — from doing to reviewing — is the single biggest productivity gain SWAT delivers.",
+    duration:35000, pointer:null,
+    subPoints:[
+      {at:6000,  pointer:'#agent-comms-ingest'},
+      {at:13000, pointer:'#agent-escalation'},
+      {at:20000, pointer:'#agent-risk-model'},
+      {at:28000, pointer:'#ca-master-btn'},
+    ],
+    fn:()=>{try{initCommsAgent();renderCaInbox();}catch(e){}},
+    ticker:[
+      {type:'success',ico:'🤖',txt:'<strong>6 agents ONLINE</strong> — all channels connected',delay:1000},
+      {type:'success',ico:'📬',txt:'<strong>Comms Agent:</strong> email · SMS · call transcripts',delay:3000},
+      {type:'error',ico:'🚨',txt:'<strong>Escalation Agent:</strong> watching CRITICAL issues',delay:5000},
+    ],
+  },
+  {
+    section:'alerts', label:'ALERT QUEUE — SUPPLIER NOTIFICATIONS', title:'Every outbound alert drafted and dispatched by the system',
+    text:'Critical escalations and high-risk notices sent to the right contacts before the buyer logs in.',
+    narration:"The Alert Queue shows every outbound notification SWAT has sent on the buyer's behalf. Critical escalation letters, high-risk notices, acknowledgement chasers — all drafted from templates, addressed to the right supplier contact, and dispatched at the right time. The queue shows timestamp, severity, recipient, and status. Suppliers receive these before the buyer makes their first phone call, which means when the buyer does call, the supplier has already seen the formal notice, already checked internally, and the conversation is far more productive. SWAT also supports custom alert rules in the Rules Engine — you can configure thresholds, escalation paths, and recipient groups specific to your procurement policy.",
+    duration:22000, pointer:'#alert-list',
+    fn:()=>{},
+    ticker:[
+      {type:'error',ico:'🚨',txt:'<strong>Escalation sent</strong> → TrailFlex · 6:42 AM',delay:1500},
+      {type:'warn',ico:'⚠',txt:'<strong>HIGH notice sent</strong> → AeroCarbon · 7:15 AM',delay:3000},
+    ],
+  },
+  {
+    section:'simulation', label:'SIMULATION ENGINE — WHAT-IF PROJECTION', title:'Project the next seven days of supply risk across all open issues',
+    text:'Run on-demand or on a sweep schedule — see where risk escalates before it becomes a crisis.',
+    narration:"The Simulation Engine is SWAT's forward-looking capability. It projects the next seven days of supply chain risk across all open issues simultaneously. You can run it on-demand or set it to sweep automatically every few minutes as new signals arrive. Each simulation day applies all active risk triggers — demand changes, TMS events, milestone gaps, supplier communication signals, and external threat data like port congestion or weather events. The output is a ranked triage list showing which issues will worsen and by how much, with specific recommended actions for each. The Mode B projection runs a demand scenario — what happens to your risk picture if demand pulls in by five days? The simulation tells you before you commit to anything. This is where SWAT moves from reactive alerting to proactive supply chain management.",
+    duration:30000, pointer:'#sim-orders-list',
+    subPoints:[
+      {at:15000, pointer:'#sim-triage-list'},
+    ],
+    fn:()=>{try{simInit();}catch(e){}},
+    ticker:[
+      {type:'success',ico:'🔮',txt:'<strong>Simulation ready</strong> — 7-day projection loaded',delay:2000},
+      {type:'warn',ico:'⚠',txt:'<strong>3 issues projected to worsen</strong> — Day 2 escalation',delay:4500},
+    ],
+  },
+  {
+    section:'suppliers', label:'SUPPLIER INTELLIGENCE — PERFORMANCE DATA', title:'OTIF, average delay, lead time, and risk tier — for every supplier',
+    text:'Historical performance feeds directly into the risk model — so context shapes every score.',
+    narration:"The Supplier Intelligence section gives you a consolidated performance view of every supplier in your network. OTIF score, average delay in days, lead time reality versus contracted lead time, and an overall risk tier — green, amber, or red. These numbers aren't decorative. They feed directly into the risk model. When a supplier with a ninety-five percent OTIF misses a milestone, SWAT scores that issue lower than when a sixty-percent OTIF supplier misses the same milestone — because history matters. You can click any supplier card to drill into their full profile: open issues, communication history, milestone performance over time, and contact details for their primary and escalation points. This is the data your buyers bring into supplier business reviews instead of anecdotal experience.",
+    duration:26000, pointer:'#supplier-cards',
+    subPoints:[
+      {at:12000, pointer:'#ss-tbody tr:first-child td:nth-child(5)'},
+    ],
+    fn:()=>{try{renderSupplierCards();renderSS();}catch(e){}},
+    ticker:[],
+  },
+  {
+    section:'demand', label:'DEMAND SIGNALS — ERP INTEGRATION', title:'Live demand data synced from ERP — need dates, volumes, model mix',
+    text:'When demand shifts, SWAT re-scores every affected issue automatically.',
+    narration:"Demand data flows into SWAT continuously from your ERP system. Monthly demand by product model, annual volumes, and most importantly — need dates for every open issue. When demand changes — a pull-in, a push-out, a volume spike — SWAT detects the delta and re-scores every affected issue automatically. If a need date moves earlier by five days and the supplier hasn't confirmed shipment, that issue's risk score jumps immediately and it rises in the worklist. No one has to manually update a spreadsheet. The Demand Dashboard also shows you forecast versus actuals by model, capacity utilisation, and the coverage ratio — the ratio of confirmed supply to demand over the next twelve months. This is where supply chain decisions get connected to commercial reality.",
+    duration:24000, pointer:null,
+    fn:()=>{try{setTimeout(()=>{renderDemandChart();renderCapacityTable();},80);}catch(e){}},
+    ticker:[
+      {type:'success',ico:'📈',txt:'<strong>ERP sync live</strong> — demand signals updated',delay:2000},
+    ],
+  },
+  {
+    section:'bom', label:'BOM — BILL OF MATERIALS', title:'Every part, every product line, every supplier — mapped',
+    text:'The structural foundation that connects supply issues to production impact.',
+    narration:"The Bill of Materials view maps every component to its parent product line. For each part, you can see the supplier, the lead time, the quantity per build, the cost, and any open issues currently affecting that component. This is what connects a supplier delay to a production consequence. When SWAT shows you that the rear shock absorber for the Dirt model is twenty-two days late, it's because the BOM tells it that this part is on the critical path for twenty-six hundred units per month. Without the BOM integration, a delay is just a delay. With it, SWAT knows which models are at risk, which months are affected, and what the downstream production impact is. The BOM Advisor AI panel lets you ask natural language questions about any component or assembly.",
+    duration:24000, pointer:null,
+    fn:()=>{try{renderBOM();}catch(e){}},
+    ticker:[
+      {type:'success',ico:'🔩',txt:'<strong>BOM loaded</strong> — 5 product lines · 263 tracked parts',delay:2000},
+    ],
+  },
+  {
+    section:'tms', label:'TMS — LOGISTICS TRACKING', title:'Shipment events, carrier updates, and customs holds — live',
+    text:'Logistics signals feed the risk model just like supplier communications do.',
+    narration:"The TMS and WMS feed brings logistics tracking data into SWAT. Shipment events — departed origin, arrived port, customs hold, delivered to warehouse — all flow in and update the corresponding PO milestones automatically. When a shipment is marked Departed, the Shipment milestone closes. When it shows a customs hold, the risk score for that issue increases and a TMS alert fires. This means SWAT isn't just tracking what suppliers say they'll do — it's tracking what's actually happening in the physical movement of goods. Combined with the External Threat Watch signals — port congestion, weather events, geopolitical risks — SWAT gives you the most complete picture of in-transit risk available without making a single phone call.",
+    duration:22000, pointer:null,
+    fn:()=>{try{renderTMSFeed();renderMapping();}catch(e){}},
+    ticker:[
+      {type:'success',ico:'🚢',txt:'<strong>TMS live</strong> — shipment events tracking',delay:2000},
+      {type:'warn',ico:'⚠',txt:'<strong>Customs hold detected</strong> — PO 2026-08821',delay:4000},
+    ],
+  },
+  {
+    section:'performance', label:'PERFORMANCE — SUPPLIER SCORECARDS', title:'Trend lines, lead time variance, and OTIF over time',
+    text:'The evidence base for supplier business reviews — not anecdote, not spreadsheet, data.',
+    narration:"The Performance Dashboard gives you every supplier's historical track record. OTIF trend over twelve months, average delay per supplier, lead time reality versus contracted lead time, and a breakdown of on-time versus late deliveries by milestone type. This is the data you bring into a supplier business review. Instead of saying you've been late a few times, you show them their sixty-one percent OTIF trend line, the specific milestones they consistently miss, and the downstream production risk those misses created. SWAT automatically generates a risk tier for each supplier — green, amber, red — based on this history, and that tier is one of the inputs to every issue score in the worklist. Good history earns a lower risk score for the same event. Poor history earns a higher one.",
+    duration:28000, pointer:'#ss-tbody',
+    fn:()=>{try{renderSS();}catch(e){}},
+    ticker:[],
+  },
+  {
+    section:'dashboard', label:'PLATFORM SUMMARY', title:"What SWAT delivers — the full picture",
+    text:'One platform. Live data. Autonomous agents. Every supply risk visible before it becomes a crisis.',
+    narration:"That's the full SWAT platform. Let me summarise what you've seen. The dashboard gives you a live risk picture across all product lines the moment you open it. The worklist surfaces every open issue ranked by a composite risk score with a specific action for each one. The commit tracker maintains a complete milestone timeline for every PO line — automatically. The agent layer processes supplier communications, sends escalations, and re-scores issues around the clock without human intervention. The simulation engine projects the next seven days of risk and shows you where to focus before problems escalate. The demand integration ensures your risk scores reflect commercial reality. And the supplier intelligence layer means every decision is grounded in historical performance, not intuition. SWAT doesn't just show you what's happening — it tells you what to do, does the chasing for you, and makes sure nothing falls through the cracks. That's the platform.",
+    duration:35000, pointer:null,
+    fn:()=>{try{renderKanban();}catch(e){}},
+    ticker:[
+      {type:'success',ico:'⬡',txt:'<strong>Platform tour complete</strong> — 12 capabilities covered',delay:3000},
+      {type:'success',ico:'🤖',txt:'<strong>Agents active</strong> — 24/7 autonomous monitoring',delay:6000},
+    ],
+  },
+];
+
 // ═══════════════════════════════════════════════════════════════════════════
 const PERSONA_OUTCOMES = {
   buyer: {
@@ -11112,6 +11271,7 @@ function selectPersona(persona){
     case 'buyer':   _activeDemoScript = DEMO_SCRIPT; break;
     case 'planner': _activeDemoScript = DEMO_SCRIPT_PLANNER; break;
     case 'plant':   _activeDemoScript = DEMO_SCRIPT_PLANT; break;
+    case 'expert':  _activeDemoScript = DEMO_SCRIPT_EXPERT; break;
     default:        _activeDemoScript = DEMO_SCRIPT; break;
   }
   closePersonaOverlay();
@@ -11145,21 +11305,24 @@ function demoInitVoice(){
   const load = ()=>{
     const voices = speechSynthesis.getVoices();
     if(!voices.length) return;
-    // Priority: natural-sounding English voices
+    // David Chen persona — male voice priority
     const preferred = [
-      'Google UK English Female','Google UK English Male',
-      'Google US English','Samantha','Karen','Daniel',
-      'Microsoft Aria Online (Natural) - English (United States)',
-      'Microsoft Jenny Online (Natural) - English (United States)',
-      'Microsoft Libby Online (Natural) - English (United Kingdom)',
-      'Alex','Victoria','Moira',
+      'Google UK English Male',
+      'Microsoft Guy Online (Natural) - English (United States)',
+      'Microsoft Ryan Online (Natural) - English (United Kingdom)',
+      'Microsoft Davis Online (Natural) - English (United States)',
+      'Microsoft James Online (Natural) - English (United Kingdom)',
+      'Daniel','Alex','Fred','Ralph','Bruce','Junior',
+      'Google US English',
     ];
     for(const name of preferred){
       const v = voices.find(v=>v.name===name);
       if(v){ _demoVoice = v; break; }
     }
     if(!_demoVoice){
-      _demoVoice = voices.find(v=>v.lang.startsWith('en-')) || voices[0];
+      _demoVoice = voices.find(v=>v.lang.startsWith('en-') && /male|guy|man|david|daniel|james|ryan|alex|fred|ralph/i.test(v.name))
+                || voices.find(v=>v.lang.startsWith('en-'))
+                || voices[0];
     }
   };
   load();
@@ -11703,6 +11866,12 @@ function startDemo(){
       initials:'MG', context:'Plant Operations · Bicycle Manufacturing',
       bio:'"I keep the operation running — throughput, downtime, escalations, all of it."',
     },
+    expert: {
+      avatar:'⬡', name:'Alex Rivera', role:'Product Expert · CoreHelix',
+      speaking:'Alex speaking…', avName:'ALEX', avRole:'Product Expert',
+      initials:'AR', context:'Platform Overview · SWAT by CoreHelix',
+      bio:'"Let me show you everything SWAT can do — every screen, every capability, every reason it exists."',
+    },
   };
   const pi = personaInfo[_activePersona] || personaInfo.buyer;
 
@@ -11774,7 +11943,7 @@ function startDemo(){
   _initDemoControlBarDrag();
 
   renderDemoStep();
-  showToast(pi.name + ' — Day in the Life','s');
+  showToast(_activePersona==='expert' ? pi.name+' — Platform Tour' : pi.name+' — Day in the Life','s');
 }
 
 var _mtgStartTime = 0;
@@ -13510,6 +13679,23 @@ setTimeout(()=>{ try{ mountDashboardOps(); }catch(e){} }, 250);
         <p>Unexpected downtime, escalation overload, difficulty pinpointing root causes across fragmented systems</p>
       </div>
       <button class="po-card-start">Begin Maria's Workflow →</button>
+    </div>
+    <!-- Product Expert -->
+    <div class="po-card" onclick="selectPersona('expert')">
+      <div class="po-card-avatar">⬡</div>
+      <div class="po-card-name">Alex Rivera</div>
+      <div class="po-card-role">Product Expert · CoreHelix</div>
+      <ul class="po-card-goals">
+        <li>Complete tour of every SWAT capability</li>
+        <li>Understand the autonomous agent layer</li>
+        <li>See simulation, BOM, TMS &amp; demand signals</li>
+        <li>Know the “why” behind every screen</li>
+      </ul>
+      <div class="po-card-pain">
+        <div class="po-card-pain-label">Best for</div>
+        <p>Evaluators, executives, and new team members who want a full platform overview before going deep on a specific role</p>
+      </div>
+      <button class="po-card-start">Begin Platform Tour →</button>
     </div>
   </div>
   <button class="po-skip" onclick="closePersonaOverlay()">Skip — explore the platform freely</button>
